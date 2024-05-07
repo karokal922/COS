@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-
+using System.Windows.Controls;
 namespace ShapeCalculator
 {
     public partial class MainWindow : Window
@@ -12,7 +12,17 @@ namespace ShapeCalculator
             {
                 btnCalculate.IsEnabled = false;
             }
+            xUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
+            yUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
+            rUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
+            vUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
         }
+       
+    
+        private string currentXUnit = "m";
+        private string currentYUnit = "m";
+        private string currentRUnit = "m";
+        private string currentVUnit = "m/min";
 
         private double Z = 2.0, Zp;
 
@@ -92,7 +102,109 @@ namespace ShapeCalculator
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
         }
+        private void UnitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ComboBox comboBox)
+            {
+                var selectedUnit = comboBox.SelectedItem as ComboBoxItem;
+                var newUnit = selectedUnit?.Content.ToString();
 
+                TextBox relatedTextBox = GetRelatedTextBox(comboBox);
+                double originalValue;
+
+                if (double.TryParse(relatedTextBox.Text, out originalValue))
+                {
+                    string currentUnit = GetCurrentUnit(comboBox);
+
+                    // Przeliczenie z aktualnej jednostki do nowej
+                    double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
+
+                    relatedTextBox.Text = newValue.ToString("0.###");
+                    SetCurrentUnit(comboBox, newUnit);
+                }
+            }
+        }
+        private TextBox GetRelatedTextBox(ComboBox comboBox)
+        {
+            switch (comboBox.Name)
+            {
+                case "xUnitComboBox":
+                    return xTextBox;
+                case "yUnitComboBox":
+                    return yTextBox;
+                case "rUnitComboBox":
+                    return rTextBox;
+                case "vUnitComboBox":
+                    return vTextBox;
+                default:
+                    return null;
+            }
+        }
+
+        private string GetCurrentUnit(ComboBox comboBox)
+        {
+            switch (comboBox.Name)
+            {
+                case "xUnitComboBox":
+                    return currentXUnit;
+                case "yUnitComboBox":
+                    return currentYUnit;
+                case "rUnitComboBox":
+                    return currentRUnit;
+                case "vUnitComboBox":
+                    return currentVUnit;
+                default:
+                    return "";
+            }
+        }
+
+        private void SetCurrentUnit(ComboBox comboBox, string newUnit)
+        {
+            switch (comboBox.Name)
+            {
+                case "xUnitComboBox":
+                    currentXUnit = newUnit;
+                    break;
+                case "yUnitComboBox":
+                    currentYUnit = newUnit;
+                    break;
+                case "rUnitComboBox":
+                    currentRUnit = newUnit;
+                    break;
+                case "vUnitComboBox":
+                    currentVUnit = newUnit;
+                    break;
+            }
+        }
+
+        private double ConvertUnit(double value, string fromUnit, string toUnit)
+        {
+            // Obsługa przypadków jednostek długości
+            double multiplier = 1;
+
+            if (fromUnit == "m" && toUnit == "mm")
+            {
+                multiplier = 1000;
+            }
+            else if (fromUnit == "mm" && toUnit == "cm")
+            {
+                multiplier = 0.1;
+            }
+            else if (fromUnit == "cm" && toUnit == "mm")
+            {
+                multiplier = 10;
+            }
+            else if (fromUnit == "cm" && toUnit == "m")
+            {
+                multiplier = 0.01;
+            }
+            else if (fromUnit == "mm" && toUnit == "m")
+            {
+                multiplier = 0.001;
+            }
+
+            return value * multiplier;
+        }
         private void getV() {
             try
             {

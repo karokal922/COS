@@ -63,14 +63,14 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
-                <Label Content="V:"/>
-                <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,0,5,0" TextAlignment="Center"/>
-                <ComboBox x:Name="vUnitComboBox" SelectedIndex="0" Width="80">
-                    <ComboBoxItem Content="m/min"/>
-                    <ComboBoxItem Content="m/s"/>
-                </ComboBox>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
+                    <Label Content="V:"/>
+                    <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,0,5,0" TextAlignment="Center"/>
+                    <ComboBox x:Name="vUnitComboBox" SelectedIndex="0" Width="80">
+                        <ComboBoxItem Content="m/min"/>
+                        <ComboBoxItem Content="m/s"/>
+                    </ComboBox>
+                </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="ρc:" Margin="0,10,5,0"/>
@@ -134,7 +134,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <Label Content="Sq:" Margin="0,0,5,0"/>
                 <Label x:Name="SqOutputLabel"/>
-            </StackPanel>
+            </StackPanel>   
         </StackPanel>
         <Label Content="Skala" HorizontalAlignment="Left" Margin="331,0,0,0" VerticalAlignment="Center" Height="26" Width="37"/>
     </Grid>
