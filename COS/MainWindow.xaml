@@ -1,0 +1,141 @@
+﻿<Window x:Class="ShapeCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Shape Calculator" Height="580" Width="552" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="369,0,0,0" Height="26" Width="113">
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="scaleTextBox1" Width="50" VerticalContentAlignment="Center" TextAlignment="Center" Text="1"/>
+                <Label Content=":" HorizontalAlignment="Right"/>
+                <TextBox x:Name="scaleTextBox2" Width="50" VerticalContentAlignment="Center" HorizontalAlignment="Right" TextAlignment="Center" Text="1"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <GroupBox Header="Select Shape">
+                <StackPanel>
+                    <RadioButton Content="Rectangle" x:Name="rectangleRadioButton" Checked="ShapeRadioButton_Checked"/>
+                    <RadioButton Content="Circle" x:Name="circleRadioButton" Checked="ShapeRadioButton_Checked"/>
+                </StackPanel>
+            </GroupBox>
+
+            <StackPanel x:Name="rectangleStackPanel" Visibility="Collapsed" >
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="X:"/>
+                    <TextBox x:Name="xTextBox" VerticalContentAlignment="Center" Margin="0,0,5,0" Width="80" TextAlignment="Center"/>
+                    <ComboBox x:Name="xUnitComboBox" SelectedIndex="0" Width="50">
+                        <ComboBoxItem Content="m"/>
+                        <ComboBoxItem Content="mm"/>
+                        <ComboBoxItem Content="cm"/>
+                        <ComboBoxItem Content="dm"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <Label Content="Y:"/>
+                    <TextBox x:Name="yTextBox" VerticalContentAlignment="Center" Margin="0,0,5,0" Width="80" TextAlignment="Center"/>
+                    <ComboBox x:Name="yUnitComboBox" SelectedIndex="0" Width="50">
+                        <ComboBoxItem Content="m"/>
+                        <ComboBoxItem Content="mm"/>
+                        <ComboBoxItem Content="cm"/>
+                        <ComboBoxItem Content="dm"/>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel x:Name="circleStackPanel" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="R:"/>
+                    <TextBox x:Name="rTextBox" VerticalContentAlignment="Center" Margin="0,0,5,0" Width="80" TextAlignment="Center"/>
+                    <ComboBox x:Name="rUnitComboBox" SelectedIndex="0" Width="50">
+                        <ComboBoxItem Content="m"/>
+                        <ComboBoxItem Content="mm"/>
+                        <ComboBoxItem Content="cm"/>
+                        <ComboBoxItem Content="dm"/>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
+                <Label Content="V:"/>
+                <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,0,5,0" TextAlignment="Center"/>
+                <ComboBox x:Name="vUnitComboBox" SelectedIndex="0" Width="80">
+                    <ComboBoxItem Content="m/min"/>
+                    <ComboBoxItem Content="m/s"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="ρc:" Margin="0,10,5,0"/>
+                <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
+                <ComboBox x:Name="liquidDensityUnitComboBox" SelectedIndex="0" Width="80" Margin="0,10,5,0">
+                    <ComboBoxItem Content="kg/m^3"/>
+                    <ComboBoxItem Content="g/cm^3"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="ρs:" Margin="0,10,5,0"/>
+                <TextBox x:Name="solidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
+                <ComboBox x:Name="solidDensityUnitComboBox" SelectedIndex="0" Width="80" Margin="0,10,5,0">
+                    <ComboBoxItem Content="kg/m^3"/>
+                    <ComboBoxItem Content="g/cm^3"/>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+
+        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click" Margin="384,0,30,5" Grid.Row="1" Height="30" VerticalAlignment="Bottom"/>
+
+        <StackPanel Grid.Row="2" Height="252" VerticalAlignment="Top">
+            <Label Content="Output" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Qm:" Margin="0,0,5,0"/>
+                <Label x:Name="QmOutputLabel"/>
+                <ComboBox x:Name="QmUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0">
+                    <ComboBoxItem Content="kg/min"/>
+                    <ComboBoxItem Content="kg/s"/>
+                    <ComboBoxItem Content="g/s"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Qo:" Margin="0,0,5,0"/>
+                <Label x:Name="QoOutputLabel"/>
+                <ComboBox x:Name="QoUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0">
+                    <ComboBoxItem Content="l/min"/>
+                    <ComboBoxItem Content="l/s"/>
+                    <ComboBoxItem Content="m^3/min"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Qm':" Margin="0,0,5,0"/>
+                <Label x:Name="QmPrimeOutputLabel"/>
+                <ComboBox x:Name="QmPrimeUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0">
+                    <ComboBoxItem Content="kg/min"/>
+                    <ComboBoxItem Content="kg/s"/>
+                    <ComboBoxItem Content="g/s"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Qo':" Margin="0,0,5,0"/>
+                <Label x:Name="QoPrimeOutputLabel"/>
+                <ComboBox x:Name="QoPrimeUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0">
+                    <ComboBoxItem Content="l/min"/>
+                    <ComboBoxItem Content="l/s"/>
+                    <ComboBoxItem Content="m^3/min"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Content="Sq:" Margin="0,0,5,0"/>
+                <Label x:Name="SqOutputLabel"/>
+            </StackPanel>
+        </StackPanel>
+        <Label Content="Skala" HorizontalAlignment="Left" Margin="331,0,0,0" VerticalAlignment="Center" Height="26" Width="37"/>
+    </Grid>
+</Window>
