@@ -111,7 +111,6 @@ namespace ShapeCalculator
         {
             conversionFactors = new Dictionary<(string, string), double>
             {
-                //  długości fiuta
                 { ("mm", "cm"), 0.1 },
                 { ("mm", "dm"), 0.01 },
                 { ("mm", "m"), 0.001 },
@@ -125,21 +124,26 @@ namespace ShapeCalculator
                 { ("m", "cm"), 100 },
                 { ("m", "dm"), 10 },
 
-                // gestrosci
+            
                 { ("kg/m^3", "g/cm^3"), 0.001 },
                 { ("g/cm^3", "kg/m^3"), 1000 },
 
-                // zapierdalando
                 { ("m/min", "m/s"), 1.0 / 60 },
                 { ("m/s", "m/min"), 60 },
 
-                // masa
                 { ("kg/min", "g/s"), 16.6667 },
                 { ("g/s", "kg/min"), 1.0 / 16.6667 },
+                { ("kg/min", "kg/s"), 1.0 / 60 },
+                { ("kg/s", "kg/min"), 60 },
+                { ("kg/s", "g/s"), 1000 },
+                { ("g/s", "kg/s"), 1.0 / 1000 },
 
-                // porzeplywy
                 { ("l/min", "m^3/min"), 0.001 },
-                { ("m^3/min", "l/min"), 1000 }
+                { ("m^3/min", "l/min"), 1000 },
+                { ("l/min", "l/s"), 1.0 / 60 },
+                { ("l/s", "l/min"), 60 },
+                { ("m^3/min", "l/s"), 1000 / 60.0 },
+                { ("l/s", "m^3/min"), 60.0 / 1000 }
             };
         }
 
