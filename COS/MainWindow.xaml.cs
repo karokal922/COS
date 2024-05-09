@@ -30,6 +30,7 @@ namespace ShapeCalculator
         private Dictionary<(string, string), double> conversionFactors;
 
         private double Z, Zp;
+        private int A;
 
         private double V, X, Y, R, Vp, Xp, Yp, Rp; // zmienne z 'p' to prim
         private double Rc;//gestosc ciekla
@@ -62,6 +63,7 @@ namespace ShapeCalculator
                 this.getRc();
                 this.getRs();
                 this.getV();
+                this.getA();
 
                 double przekroj;
                 double przekrojModelu;
@@ -89,17 +91,19 @@ namespace ShapeCalculator
                     przekrojModelu = Math.PI * this.Rp * this.Rp;
                 }
 
-                this.Qm = przekroj * this.V * this.Rc;//m^2*m/min*kg/m^3 = kg/min
+                this.Qm = this.A * przekroj * this.V * this.Rs;//m^2*m/min*kg/m^3 = kg/min
                 QmOutputLabel.Content = this.Qm.ToString("F2");
 
-                this.Qo = (this.Qm / this.Rs) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
+                this.Qo = (this.Qm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
                 QoOutputLabel.Content = this.Qo.ToString("F2");
 
-                this.Qmm = przekrojModelu * this.Vp * this.Rc;//m^2*m/min*kg/m^3 = kg/min
+                QmPrimeLabel.Content = "Qm'(żyły: " + this.A.ToString() + ")";
+                this.Qmm = przekrojModelu * this.Vp * this.Rs;//m^2*m/min*kg/m^3 = kg/min    //A żył
                 QmPrimeOutputLabel.Content = this.Qmm.ToString("F2");
 
-                this.Qom = (this.Qmm / this.Rs) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
-                QoPrimeOutputLabel.Content = this.Qom.ToString("F2");
+                QoPrimeLabel.Content = "Qo'(żyły: " + this.A.ToString() + ")";
+                this.Qom = (this.Qmm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min   //A żył
+                QoPrimeOutputLabel.Content = this.Qom.ToString("F2"); 
 
                 this.Sq = Math.Sqrt(skala);
                 SqOutputLabel.Content = this.Sq.ToString("F2");
@@ -263,6 +267,23 @@ namespace ShapeCalculator
             }
         }
 
+        private void getA()
+        {
+            try
+            {
+                this.A = Convert.ToInt32(veinsTextBox.Text);
+                if (this.A <= 0.0)
+                {
+                    throw new Exception("Ilość żył nie może być mniejsza bądź równa zeru!");
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Zła dana a");
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
         private void getX()
         {
             try
@@ -299,6 +320,7 @@ namespace ShapeCalculator
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
+
 
         private void getR()
         {

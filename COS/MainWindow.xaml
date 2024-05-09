@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ShapeCalculator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Shape Calculator" Height="580" Width="552" ResizeMode="NoResize">
+        Title="Shape Calculator" Height="580" Width="552">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -73,6 +73,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
+                <Label Content="a:" Margin="0,10,5,0"/> <!-- Ilość żył-->
+                <TextBox x:Name="veinsTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
+                
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
                 <Label Content="ρc:" Margin="0,10,5,0"/>
                 <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
                 <ComboBox x:Name="liquidDensityUnitComboBox" SelectedIndex="0" Width="80" Margin="0,10,5,0">
@@ -121,7 +127,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.Column="1" Grid.Row="1">
-                    <Label Content="Qm':" Margin="0,0,5,0"/>
+                    <Label x:Name="QmPrimeLabel" Content="Qm':" Margin="0,0,5,0"/>
                     <Label x:Name="QmPrimeOutputLabel"/>
                     <ComboBox x:Name="QmPrimeUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0">
                         <ComboBoxItem Content="kg/min"/>
@@ -141,7 +147,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.Row="2" Grid.Column="1">
-                    <Label Content="Qo':" Margin="0,0,5,0"/>
+                    <Label x:Name="QoPrimeLabel" Content="Qo':" Margin="0,0,5,0"/>
                     <Label x:Name="QoPrimeOutputLabel"/>
                     <ComboBox x:Name="QoPrimeUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0">
                         <ComboBoxItem Content="l/min"/>
