@@ -29,7 +29,7 @@ namespace ShapeCalculator
         private Dictionary<string, string> currentUnits;
         private Dictionary<(string, string), double> conversionFactors;
 
-        private double Z = 2.0, Zp;
+        private double Z, Zp;
 
         private double V, X, Y, R, Vp, Xp, Yp, Rp; // zmienne z 'p' to prim
         private double Rc;//gestosc ciekla
@@ -90,19 +90,19 @@ namespace ShapeCalculator
                 }
 
                 this.Qm = przekroj * this.V * this.Rc;//m^2*m/min*kg/m^3 = kg/min
-                QmOutputLabel.Content = this.Qm;
+                QmOutputLabel.Content = this.Qm.ToString("F2");
 
                 this.Qo = (this.Qm / this.Rs) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
-                QoOutputLabel.Content = this.Qo;
+                QoOutputLabel.Content = this.Qo.ToString("F2");
 
                 this.Qmm = przekrojModelu * this.Vp * this.Rc;//m^2*m/min*kg/m^3 = kg/min
-                QmPrimeOutputLabel.Content = this.Qmm;
+                QmPrimeOutputLabel.Content = this.Qmm.ToString("F2");
 
                 this.Qom = (this.Qmm / this.Rs) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
-                QoPrimeOutputLabel.Content = this.Qom;
+                QoPrimeOutputLabel.Content = this.Qom.ToString("F2");
 
                 this.Sq = Math.Sqrt(skala);
-                SqOutputLabel.Content = this.Sq;
+                SqOutputLabel.Content = this.Sq.ToString("F2");
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
@@ -247,6 +247,7 @@ namespace ShapeCalculator
             try
             {
                 this.V = Convert.ToDouble(vTextBox.Text);
+                this.Z = this.V;
                 if (this.V <= 0.0)
                 {
                     throw new Exception("Prędkość odlewania nie może być mniejsza bądź równa zeru!");
