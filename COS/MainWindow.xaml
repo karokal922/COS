@@ -17,7 +17,7 @@
 
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Width="164">
             <StackPanel Orientation="Horizontal">
-                <Label Content="Skala" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala modelu" Content="Skala" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="scaleTextBox1" Width="50" TextAlignment="Center" Text="1" VerticalContentAlignment="Center"/>
                 <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="scaleTextBox2" Width="50" HorizontalAlignment="Right" TextAlignment="Center" Text="1" VerticalContentAlignment="Center"/>
@@ -34,7 +34,7 @@
 
             <StackPanel x:Name="rectangleStackPanel" Visibility="Collapsed" >
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="X:" Width="30px" Margin="0,10,5,0"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Długość przekroju odlewanego wlewka" Content="X:" Width="30px" Margin="0,10,5,0"/>
                     <TextBox x:Name="xTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" Width="80" TextAlignment="Center"/>
                     <ComboBox x:Name="xUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="m"/>
@@ -45,7 +45,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Y:" Width="30px" Margin="0,10,5,0"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Szerokość przekroju odlewanego wlewka" Content="Y:" Width="30px" Margin="0,10,5,0"/>
                     <TextBox x:Name="yTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" Width="80" TextAlignment="Center"/>
                     <ComboBox x:Name="yUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="m"/>
@@ -59,7 +59,7 @@
 
             <StackPanel x:Name="circleStackPanel" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="R:" Width="30px" Margin="0,10,5,0"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Promień przekroju odlewanego wlewka" Content="R:" Width="30px" Margin="0,10,5,0"/>
                     <TextBox x:Name="rTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" Width="80" TextAlignment="Center"/>
                     <ComboBox x:Name="rUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="m"/>
@@ -71,7 +71,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="V:" Width="30px" Margin="0,10,5,0"/>
+                <Label ToolTipService.InitialShowDelay="10" ToolTip="Prędkość odlewania" x:Name="vLabel" Content="V:" Width="30px" Margin="0,10,5,0" />
+    
                 <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
                 <ComboBox x:Name="vUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                     <ComboBoxItem Content="m/min"/>
@@ -80,12 +81,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="a:" Width="30px" Margin="0,10,5,0"/>
+                <Label ToolTipService.InitialShowDelay="10" ToolTip="Ilość żył maszyny COS" Content="a:" Width="30px" Margin="0,10,5,0"/>
                 <TextBox x:Name="veinsTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,0,0" TextAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="ρc:" Width="30px" Margin="0,10,5,0"/>
+                <Label ToolTipService.InitialShowDelay="10" ToolTip="Gęstość stali w stanie ciekłym" Content="ρc:" Width="30px" Margin="0,10,5,0"/>
                 <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
                 <ComboBox x:Name="liquidDensityUnitComboBox" Width="90" SelectedIndex="0" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                     <ComboBoxItem Content="kg/m^3"/>
@@ -94,7 +95,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="ρs:" Width="30px" Margin="0,10,5,0"/>
+                <Label ToolTipService.InitialShowDelay="10" ToolTip="Gęstość stali w stanie stałym" Content="ρs:" Width="30px" Margin="0,10,5,0"/>
                 <TextBox x:Name="solidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
                 <ComboBox x:Name="solidDensityUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                     <ComboBoxItem Content="kg/m^3"/>
@@ -131,7 +132,7 @@
 
                 <!-- Qm i Qm' -->
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.Row="1">
-                    <Label Content="Qm:" Margin="0,0,5,0" Width="50px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ masowy w urządzeniu przemysłowym" Content="Qm:" Margin="0,0,5,0" Width="50px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     <Label x:Name="QmOutputLabel"/>
                     <ComboBox x:Name="QmUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="kg/min"/>
@@ -140,7 +141,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.Column="1" Grid.Row="1">
-                    <Label x:Name="QmPrimeLabel" Content="Qm':" Width="50px" Margin="0,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ masowy w cieczy modelowej" x:Name="QmPrimeLabel" Content="Qm':" Width="50px" Margin="0,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     <Label x:Name="QmPrimeOutputLabel"/>
                     <ComboBox x:Name="QmPrimeUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="kg/min"/>
@@ -151,7 +152,7 @@
 
                 <!-- Qo i Qo' -->
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.Row="2">
-                    <Label Content="Qo:" Margin="0,0,5,0" Width="50px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy w urządzeniu przemysłowym" Content="Qo:" Margin="0,0,5,0" Width="50px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     <Label x:Name="QoOutputLabel"/>
                     <ComboBox x:Name="QoUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="l/min"/>
@@ -160,7 +161,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.Row="2" Grid.Column="1">
-                    <Label x:Name="QoPrimeLabel" Content="Qo':" Width="50px" Margin="0,0,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy cieczy modelowej" x:Name="QoPrimeLabel" Content="Qo':" Width="50px" Margin="0,0,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     <Label x:Name="QoPrimeOutputLabel"/>
                     <ComboBox x:Name="QoPrimeUnitComboBox" SelectedIndex="0" Width="80" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="l/min"/>
@@ -169,7 +170,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0"  Grid.Row="3" Grid.Column="1">
-                    <Label Content="Sq:" Margin="0,0,5,0" Width="50px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala przepływu" Content="Sq:" Margin="0,0,5,0" Width="50px" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                     <Label x:Name="SqOutputLabel"/>
                 </StackPanel>
             </Grid>
