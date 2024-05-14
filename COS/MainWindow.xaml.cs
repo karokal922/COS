@@ -91,6 +91,11 @@ namespace ShapeCalculator
                     przekrojModelu = Math.PI * this.Rp * this.Rp;
                 }
 
+                QmUnitComboBox.SelectedIndex = 0;
+                QoUnitComboBox.SelectedIndex = 0;
+                QmPrimeUnitComboBox.SelectedIndex = 0;
+                QoPrimeUnitComboBox.SelectedIndex = 0;
+
                 this.Qm = this.A * przekroj * this.V * this.Rs;//m^2*m/min*kg/m^3 = kg/min
                 QmOutputLabel.Content = this.Qm.ToString("F2");
 
@@ -107,12 +112,6 @@ namespace ShapeCalculator
 
                 this.Sq = Math.Sqrt(skala);
                 SqOutputLabel.Content = this.Sq.ToString("F2");
-
-
-                QmUnitComboBox.SelectedIndex = 0;
-                QoUnitComboBox.SelectedIndex = 0;
-                QmPrimeUnitComboBox.SelectedIndex = 0;
-                QoPrimeUnitComboBox.SelectedIndex = 0;
                 
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
