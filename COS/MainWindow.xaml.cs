@@ -107,6 +107,13 @@ namespace ShapeCalculator
 
                 this.Sq = Math.Sqrt(skala);
                 SqOutputLabel.Content = this.Sq.ToString("F2");
+
+
+                QmUnitComboBox.SelectedIndex = 0;
+                QoUnitComboBox.SelectedIndex = 0;
+                QmPrimeUnitComboBox.SelectedIndex = 0;
+                QoPrimeUnitComboBox.SelectedIndex = 0;
+                
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
@@ -132,8 +139,8 @@ namespace ShapeCalculator
                 { ("kg/m^3", "g/cm^3"), 0.001 },
                 { ("g/cm^3", "kg/m^3"), 1000 },
 
-                { ("m/min", "m/s"), 1.0 / 60 },
-                { ("m/s", "m/min"), 60 },
+                { ("m/min", "m/s"), 1.0 / 60.0 },
+                { ("m/s", "m/min"), 60.0 },
 
                 { ("kg/min", "g/s"), 16.6667 },
                 { ("g/s", "kg/min"), 1.0 / 16.6667 },
@@ -274,7 +281,8 @@ namespace ShapeCalculator
         private void getV() {
             try
             {
-                this.V = Convert.ToDouble(vTextBox.Text);
+               
+                this.V = ConvertUnit(Convert.ToDouble(vTextBox.Text), (vUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m/min");
                 this.Z = this.V;
                 if (this.V <= 0.0)
                 {
@@ -312,11 +320,12 @@ namespace ShapeCalculator
         {
             try
             {
-                this.X = Convert.ToDouble(xTextBox.Text);
+                this.X = ConvertUnit(Convert.ToDouble(xTextBox.Text), (xUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m");
                 if (this.X <= 0.0)
                 {
                     throw new Exception("Długość boku X nie może być mniejsza bądź równa zeru!");
                 }
+
             }
             catch (FormatException)
             {
@@ -332,7 +341,7 @@ namespace ShapeCalculator
         {
             try
             {
-                this.Y = Convert.ToDouble(yTextBox.Text);
+                this.Y = ConvertUnit(Convert.ToDouble(yTextBox.Text), (yUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m");
                 if (this.Y <= 0.0)
                 {
                     throw new Exception("Długość boku Y nie może być mniejsza bądź równa zeru!");
@@ -350,7 +359,7 @@ namespace ShapeCalculator
         {
             try
             {
-                this.R = Convert.ToDouble(rTextBox.Text);
+                this.R = ConvertUnit(Convert.ToDouble(rTextBox.Text), (rUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m");
                 if (this.R <= 0.0)
                 {
                     throw new Exception("Promień nie może być mniejszy bądź równy zeru!");
@@ -369,7 +378,8 @@ namespace ShapeCalculator
         {
             try
             {
-                this.Rc = Convert.ToDouble(liquidDensityTextBox.Text);
+               
+                this.Rc = ConvertUnit(Convert.ToDouble(liquidDensityTextBox.Text), (liquidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "kg/m^3");
                 if (this.Rc <= 0.0)
                 {
                     throw new Exception("Gęstość nie może być mniejsza bądź równa zeru!");
@@ -389,7 +399,7 @@ namespace ShapeCalculator
         {
             try
             {
-                this.Rs = Convert.ToDouble(solidDensityTextBox.Text);
+                this.Rs = ConvertUnit(Convert.ToDouble(solidDensityTextBox.Text), (solidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "kg/m^3");
                 if (this.Rs <= 0.0)
                 {
                     throw new Exception("Gęstość nie może być mniejsza bądź równa zeru!");
