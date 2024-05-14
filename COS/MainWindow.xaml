@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ShapeCalculator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="COS Calculator" MinHeight="700" MinWidth="552" Height="700" Width="552" FontSize="16">
+        Title="COS Calculator" MinHeight="700" MinWidth="552" Height="700" Width="552" FontSize="16" SizeChanged="Window_SizeChanged">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Offset="0" Color="#FF66A6DD"/>
@@ -9,6 +9,9 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="40"/>
             <RowDefinition/>
@@ -24,7 +27,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Width="Auto">
             <GroupBox Header="Kształt wlewki" Height="73">
                 <StackPanel>
                     <RadioButton Content="Protokątny" x:Name="rectangleRadioButton" Checked="ShapeRadioButton_Checked" VerticalContentAlignment="Center"/>
@@ -32,11 +35,11 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel x:Name="rectangleStackPanel" Visibility="Collapsed" >
+            <StackPanel x:Name="rectangleStackPanel" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="X:" Width="30px" Margin="0,10,5,0"/>
-                    <TextBox x:Name="xTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" Width="80" TextAlignment="Center"/>
-                    <ComboBox x:Name="xUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBox x:Name="xTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center"/>
+                    <ComboBox x:Name="xUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                         <ComboBoxItem Content="m"/>
                         <ComboBoxItem Content="mm"/>
                         <ComboBoxItem Content="cm"/>
@@ -46,8 +49,8 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Y:" Width="30px" Margin="0,10,5,0"/>
-                    <TextBox x:Name="yTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" Width="80" TextAlignment="Center"/>
-                    <ComboBox x:Name="yUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBox x:Name="yTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center"/>
+                    <ComboBox x:Name="yUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                         <ComboBoxItem Content="m"/>
                         <ComboBoxItem Content="mm"/>
                         <ComboBoxItem Content="cm"/>
@@ -55,13 +58,12 @@
                     </ComboBox>
                 </StackPanel>
             </StackPanel>
-
 
             <StackPanel x:Name="circleStackPanel" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="R:" Width="30px" Margin="0,10,5,0"/>
-                    <TextBox x:Name="rTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" Width="80" TextAlignment="Center"/>
-                    <ComboBox x:Name="rUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBox x:Name="rTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center"/>
+                    <ComboBox x:Name="rUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                         <ComboBoxItem Content="m"/>
                         <ComboBoxItem Content="mm"/>
                         <ComboBoxItem Content="cm"/>
@@ -70,9 +72,9 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <Label Content="V:" Width="30px" Margin="0,10,5,0"/>
-                <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
+                <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center"/>
                 <ComboBox x:Name="vUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                     <ComboBoxItem Content="m/min"/>
                     <ComboBoxItem Content="m/s"/>
@@ -81,13 +83,13 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="a:" Width="30px" Margin="0,10,5,0"/>
-                <TextBox x:Name="veinsTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,0,0" TextAlignment="Center"/>
+                <TextBox x:Name="veinsTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,0,0" TextAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="ρc:" Width="30px" Margin="0,10,5,0"/>
-                <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
-                <ComboBox x:Name="liquidDensityUnitComboBox" Width="90" SelectedIndex="0" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center"/>
+                <ComboBox x:Name="liquidDensityUnitComboBox" Width="90" SelectedIndex="0" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                     <ComboBoxItem Content="kg/m^3"/>
                     <ComboBoxItem Content="g/cm^3"/>
                 </ComboBox>
@@ -95,8 +97,8 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="ρs:" Width="30px" Margin="0,10,5,0"/>
-                <TextBox x:Name="solidDensityTextBox" VerticalContentAlignment="Center" Width="80" Margin="0,10,5,0" TextAlignment="Center"/>
-                <ComboBox x:Name="solidDensityUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <TextBox x:Name="solidDensityTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center"/>
+                <ComboBox x:Name="solidDensityUnitComboBox" SelectedIndex="0" Width="90" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                     <ComboBoxItem Content="kg/m^3"/>
                     <ComboBoxItem Content="g/cm^3"/>
                 </ComboBox>
@@ -110,7 +112,6 @@
                 </Style>
             </Button.Resources>
         </Button>
-
 
         <StackPanel Grid.Row="2" Height="252" VerticalAlignment="Center" >
             <Label Content="Wyniki" FontWeight="Bold"  HorizontalAlignment="Center" Margin="0,20,0,10" Width="507" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"/>

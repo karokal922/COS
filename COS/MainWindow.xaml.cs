@@ -169,6 +169,30 @@ namespace ShapeCalculator
             };
         }
 
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double textBoxWidth = (e.NewSize.Width - 50 - 90 - 800); // 50 for Label width, 90 for ComboBox width, 800 for proper scaling
+            if (textBoxWidth > 0)
+            {
+                xTextBox.Width = textBoxWidth;
+                yTextBox.Width = textBoxWidth;
+                rTextBox.Width = textBoxWidth;
+                vTextBox.Width = textBoxWidth;
+                liquidDensityTextBox.Width = textBoxWidth;
+                solidDensityTextBox.Width = textBoxWidth;
+                veinsTextBox.Width = textBoxWidth;
+            }
+            else {
+                xTextBox.Width = xTextBox.MinWidth;
+                yTextBox.Width = yTextBox.MinWidth;
+                rTextBox.Width = rTextBox.MinWidth;
+                vTextBox.Width = vTextBox.MinWidth;
+                liquidDensityTextBox.Width = liquidDensityTextBox.MinWidth;
+                solidDensityTextBox.Width = solidDensityTextBox.MinWidth;
+                veinsTextBox.Width = veinsTextBox.MinWidth;
+            }
+        }
+
         private void UnitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is ComboBox comboBox)
