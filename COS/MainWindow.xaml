@@ -187,6 +187,6 @@
         <Button x:Name="btnSavePdf" Content="Save as PDF" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="-11,-19,0,0" VerticalAlignment="Top" Height="35" Width="98" Click="btnSavePdf_Click" Grid.RowSpan="2"  />
         <Button x:Name="btnSavePdf_Copy" Content="Eksp do PDF" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="-11,-19,0,0" VerticalAlignment="Top" Height="35" Width="98" Click="btnSavePdf_Click" Grid.RowSpan="2"  />
         <Button x:Name="zapiszBtn" Grid.Column="2" Content="Zapisz" HorizontalAlignment="Left" Margin="10,-19,0,0" VerticalAlignment="Top" Height="35" Width="90" Grid.RowSpan="2" Click="zapiszBtn_Click"/>
-        <Button Grid.Column="2" Content="Wczytaj" HorizontalAlignment="Left" Margin="105,-21,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="37" Width="81" Click="Button_Click"/>
+        <Button Grid.Column="2" Content="Wczytaj" HorizontalAlignment="Left" Margin="105,-19,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="35" Width="81" Click="Button_Click"/>
     </Grid>
 </Window>
