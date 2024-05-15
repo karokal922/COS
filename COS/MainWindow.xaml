@@ -16,12 +16,13 @@
             <ColumnDefinition Width="142*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="40"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="164" Grid.Column="2" Margin="262,0,0,0">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="164" Grid.Column="2" Margin="262,0,0,0" Grid.Row="1">
             <StackPanel Orientation="Horizontal">
                 <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala modelu" Content="Skala" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="scaleTextBox1" Width="50" TextAlignment="Center" Text="1" VerticalContentAlignment="Center"/>
@@ -30,7 +31,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Width="Auto" Grid.ColumnSpan="3">
+        <StackPanel Grid.Row="2" Width="Auto" Grid.ColumnSpan="3">
             <GroupBox Header="Kształt wlewki" Height="73">
                 <StackPanel>
                     <RadioButton Content="Protokątny" x:Name="rectangleRadioButton" Checked="ShapeRadioButton_Checked" VerticalContentAlignment="Center"/>
@@ -113,7 +114,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click" Margin="0,0,30,5" Grid.Row="1" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="98" Grid.Column="2">
+        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click" Margin="0,0,30,5" Grid.Row="2" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="98" Grid.Column="2">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -121,7 +122,7 @@
             </Button.Resources>
         </Button>
 
-        <StackPanel Grid.Row="2" Height="252" VerticalAlignment="Center" Grid.ColumnSpan="3" >
+        <StackPanel Grid.Row="3" Height="252" VerticalAlignment="Center" Grid.ColumnSpan="3" >
             <Label Content="Wyniki" FontWeight="Bold"  HorizontalAlignment="Center" Margin="0,20,0,10" Width="507" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"/>
             <Grid Grid.Row="2" Height="176">
                 <Grid.ColumnDefinitions>
@@ -183,6 +184,9 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Button x:Name="btnSavePdf" Content="Save as PDF" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="-11,-19,0,0" VerticalAlignment="Top" Height="35" Width="98" Click="btnSavePdf_Click"  />
+        <Button x:Name="btnSavePdf" Content="Save as PDF" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="-11,-19,0,0" VerticalAlignment="Top" Height="35" Width="98" Click="btnSavePdf_Click" Grid.RowSpan="2"  />
+        <Button x:Name="btnSavePdf_Copy" Content="Eksp do PDF" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="-11,-19,0,0" VerticalAlignment="Top" Height="35" Width="98" Click="btnSavePdf_Click" Grid.RowSpan="2"  />
+        <Button x:Name="zapiszBtn" Grid.Column="2" Content="Zapisz" HorizontalAlignment="Left" Margin="10,-19,0,0" VerticalAlignment="Top" Height="35" Width="90" Grid.RowSpan="2" Click="zapiszBtn_Click"/>
+        <Button Grid.Column="2" Content="Wczytaj" HorizontalAlignment="Left" Margin="105,-21,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="37" Width="81" Click="Button_Click"/>
     </Grid>
 </Window>

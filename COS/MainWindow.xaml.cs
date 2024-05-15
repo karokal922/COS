@@ -6,6 +6,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
+using ClosedXML.Excel;
+using System.Runtime.CompilerServices;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.Drawing;
+
 namespace ShapeCalculator
 {
     public partial class MainWindow : Window
@@ -288,6 +293,17 @@ namespace ShapeCalculator
 
             throw new ArgumentException($"Nie znaleziono przelicznika z {fromUnit} do {toUnit}");
         }
+
+        private void zapiszBtn_Click(object sender, RoutedEventArgs e)
+        {
+            WriteExcelData();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ReadExcelData();
+        }
+
         private void getV()
         {
             try
@@ -499,9 +515,9 @@ namespace ShapeCalculator
                 XFont font = new XFont("Arial", 12, XFontStyle.Regular);
 
 
-               // XImage image = XImage.FromFile("../Assets/logo.jpg");
+                // XImage image = XImage.FromFile("../Assets/logo.jpg");
 
-              //  gfx.DrawImage(image, 20, 20, 100, 50);
+                //  gfx.DrawImage(image, 20, 20, 100, 50);
 
                 gfx.DrawString("COS", font, XBrushes.Black,
                     new XRect(0, 80, page.Width, 20),
@@ -569,6 +585,211 @@ namespace ShapeCalculator
 
                 currentY += font.Height + cellPadding * 2;
             }
+        }
+
+        public void ReadExcelData()
+        {
+            ChangeUnitsToSI();
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Pliki Excel (*.xlsx)|*.xlsx|Wszystkie pliki (*.*)|*.*";
+            openFileDialog.Title = "Wybierz plik Excel";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                using (var workbook = new XLWorkbook(filePath))
+                {
+                    var worksheet = workbook.Worksheet("Arkusz1");
+
+                    string wartosc = worksheet.Cell("B2").Value.ToString();
+                    Console.WriteLine(wartosc);
+                    wartosc = wartosc.TrimStart('\'');
+                    Console.WriteLine(wartosc);
+                    string[] wartoscSplit = wartosc.Split(':');
+                    Console.WriteLine(wartoscSplit);
+                    scaleTextBox1.Text = wartoscSplit[0];
+                    scaleTextBox2.Text = wartoscSplit[1];
+
+                    // Jeśli zapisane dane odnoszą się do prostokąta
+                    if (worksheet.Cell("A3").Value.ToString() == "X")
+                    {
+                        rectangleRadioButton.IsChecked = true;
+                        ShapeRadioButton_Checked(rectangleRadioButton, null);
+                        rTextBox.Text = "";
+                        xTextBox.Text = worksheet.Cell("B3").GetString();
+                        yTextBox.Text = worksheet.Cell("B4").GetString();
+                        vTextBox.Text = worksheet.Cell("B5").GetString();
+                        veinsTextBox.Text = worksheet.Cell("B6").GetString();
+                        liquidDensityTextBox.Text = worksheet.Cell("B7").GetString();
+                        solidDensityTextBox.Text = worksheet.Cell("B8").GetString();
+                        QmOutputLabel.Content = worksheet.Cell("B9").GetString();
+                        QoOutputLabel.Content = worksheet.Cell("B10").GetString();
+                        QmPrimeOutputLabel.Content = worksheet.Cell("B11").GetString();
+                        QoPrimeOutputLabel.Content = worksheet.Cell("B12").GetString();
+                        SqOutputLabel.Content = worksheet.Cell("B13").GetString();
+                    }
+                    // Jeśli zapisane dane odnoszą się do koła
+                    else if (worksheet.Cell("A3").Value.ToString() == "R")
+                    {
+                        circleRadioButton.IsChecked = true;
+                        ShapeRadioButton_Checked(circleRadioButton, null);
+                        xTextBox.Text = "";
+                        yTextBox.Text = "";
+                        rTextBox.Text = worksheet.Cell("B3").GetString();
+                        vTextBox.Text = worksheet.Cell("B4").GetString();
+                        veinsTextBox.Text = worksheet.Cell("B4").GetString();
+                        liquidDensityTextBox.Text = worksheet.Cell("B5").GetString();
+                        solidDensityTextBox.Text = worksheet.Cell("B6").GetString();
+                        QmOutputLabel.Content = worksheet.Cell("B7").GetString();
+                        QoOutputLabel.Content = worksheet.Cell("B8").GetString();
+                        QmPrimeOutputLabel.Content = worksheet.Cell("B9").GetString();
+                        QoPrimeOutputLabel.Content = worksheet.Cell("B10").GetString();
+                        SqOutputLabel.Content = worksheet.Cell("B11").GetString();
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nie wybrano pliku. Operacja przerwana.");
+            }
+        }
+
+        public void WriteExcelData()
+        {
+            btnCalculate_Click(this, null);
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Pliki Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.Title = "Wybierz lokalizację do zapisu pliku Excel";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filePath = saveFileDialog.FileName;
+
+
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Arkusz1");
+
+                    worksheet.Clear();
+
+                    worksheet.Cell("A1").Value = "Nazwa";
+                    worksheet.Cell("B1").Value = "Wartość";
+                    worksheet.Cell("C1").Value = "Jednostka";
+
+                    worksheet.Cell("A2").Value = "S";
+                    worksheet.Cell("B2").Value = "'" + s1.ToString() + ":" + s2.ToString();
+
+                    if (rectangleRadioButton.IsChecked == true)
+                    {
+                        worksheet.Cell("A3").Value = "X";
+                        worksheet.Cell("B3").Value = X;
+                        worksheet.Cell("C3").Value = "m";
+
+                        worksheet.Cell("A4").Value = "Y";
+                        worksheet.Cell("B4").Value = Y;
+                        worksheet.Cell("C4").Value = "m";
+
+                        worksheet.Cell("A5").Value = "V";
+                        worksheet.Cell("B5").Value = V;
+                        worksheet.Cell("C5").Value = "m/min";
+
+                        worksheet.Cell("A6").Value = "a";
+                        worksheet.Cell("B6").Value = A;
+
+                        worksheet.Cell("A7").Value = "ρc";
+                        worksheet.Cell("B7").Value = Rc;
+                        worksheet.Cell("C7").Value = "kg/m^3";
+
+                        worksheet.Cell("A8").Value = "ρs";
+                        worksheet.Cell("B8").Value = Rs;
+                        worksheet.Cell("C8").Value = "kg/m^3";
+
+                        worksheet.Cell("A9").Value = "Qm";
+                        worksheet.Cell("B9").Value = Qm.ToString("F2");
+                        worksheet.Cell("C9").Value = "kg/min";
+
+                        worksheet.Cell("A10").Value = "Qo";
+                        worksheet.Cell("B10").Value = Qo.ToString("F2");
+                        worksheet.Cell("C10").Value = "l/min";
+
+                        worksheet.Cell("A11").Value = "Qm'";
+                        worksheet.Cell("B11").Value = Qmm.ToString("F2");
+                        worksheet.Cell("C11").Value = "kg/min";
+
+                        worksheet.Cell("A12").Value = "Qo'";
+                        worksheet.Cell("B12").Value = Qom.ToString("F2");
+                        worksheet.Cell("C12").Value = "l/min";
+
+                        worksheet.Cell("A13").Value = "Sq";
+                        worksheet.Cell("B13").Value = Sq.ToString("F2");
+
+                    }
+                    if (circleRadioButton.IsChecked == true)
+                    {
+                        worksheet.Cell("A3").Value = "R";
+                        worksheet.Cell("B3").Value = R;
+                        worksheet.Cell("C3").Value = "m";
+
+                        worksheet.Cell("A4").Value = "V";
+                        worksheet.Cell("B4").Value = V;
+                        worksheet.Cell("C4").Value = "m/min";
+
+                        worksheet.Cell("A4").Value = "a";
+                        worksheet.Cell("B4").Value = A;
+
+                        worksheet.Cell("A5").Value = "ρc";
+                        worksheet.Cell("B5").Value = Rc;
+                        worksheet.Cell("C5").Value = "kg/m^3";
+
+                        worksheet.Cell("A6").Value = "ρs";
+                        worksheet.Cell("B6").Value = Rs;
+                        worksheet.Cell("C6").Value = "kg/m^3";
+
+                        worksheet.Cell("A7").Value = "Qm";
+                        worksheet.Cell("B7").Value = Qm.ToString("F2");
+                        worksheet.Cell("C7").Value = "kg/min";
+
+                        worksheet.Cell("A8").Value = "Qo";
+                        worksheet.Cell("B8").Value = Qo.ToString("F2");
+                        worksheet.Cell("C8").Value = "l/min";
+
+                        worksheet.Cell("A9").Value = "Qm'";
+                        worksheet.Cell("B9").Value = Qmm.ToString("F2");
+                        worksheet.Cell("C9").Value = "kg/min";
+
+                        worksheet.Cell("A10").Value = "Qo'";
+                        worksheet.Cell("B10").Value = Qom.ToString("F2");
+                        worksheet.Cell("C10").Value = "l/min";
+
+                        worksheet.Cell("A11").Value = "Sq";
+                        worksheet.Cell("B11").Value = Sq.ToString("F2");
+
+                    }
+
+                    workbook.SaveAs(filePath);
+                }
+
+                Console.WriteLine($"Dane zostały zapisane do pliku Excel w lokalizacji: {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("Nie wybrano lokalizacji. Operacja przerwana.");
+            }
+        }
+        private void ChangeUnitsToSI()
+        {
+            vUnitComboBox.SelectedIndex = 0;
+            xUnitComboBox.SelectedIndex = 0;
+            yUnitComboBox.SelectedIndex = 0;
+            rUnitComboBox.SelectedIndex = 0;
+            liquidDensityUnitComboBox.SelectedIndex = 0;
+            solidDensityUnitComboBox.SelectedIndex = 0;
+            QmUnitComboBox.SelectedIndex = 0;
+            QmPrimeUnitComboBox.SelectedIndex = 0;
+            QoUnitComboBox.SelectedIndex = 0;
+            QoPrimeUnitComboBox.SelectedIndex = 0;
         }
     }
 }
