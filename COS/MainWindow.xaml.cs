@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+
 namespace ShapeCalculator
 {
     public partial class MainWindow : Window
@@ -84,7 +88,8 @@ namespace ShapeCalculator
                     przekroj = this.X * this.Y;
                     przekrojModelu = this.Xp * this.Yp;
                 }
-                else {
+                else
+                {
                     this.getR();
                     this.Rp = this.R * skala;
                     przekroj = Math.PI * this.R * this.R;
@@ -102,17 +107,17 @@ namespace ShapeCalculator
                 this.Qo = (this.Qm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
                 QoOutputLabel.Content = this.Qo.ToString("F2");
 
-               // QmPrimeLabel.Content = "Qm'(żyły: " + this.A.ToString() + ")";
+                // QmPrimeLabel.Content = "Qm'(żyły: " + this.A.ToString() + ")";
                 this.Qmm = przekrojModelu * this.Vp * this.Rs;//m^2*m/min*kg/m^3 = kg/min    //A żył
                 QmPrimeOutputLabel.Content = this.Qmm.ToString("F2");
 
                 //QoPrimeLabel.Content = "Qo'(żyły: " + this.A.ToString() + ")";
                 this.Qom = (this.Qmm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min   //A żył
-                QoPrimeOutputLabel.Content = this.Qom.ToString("F2"); 
+                QoPrimeOutputLabel.Content = this.Qom.ToString("F2");
 
                 this.Sq = Math.Sqrt(skala);
                 SqOutputLabel.Content = this.Sq.ToString("F2");
-                
+
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
@@ -134,7 +139,7 @@ namespace ShapeCalculator
                 { ("m", "cm"), 100 },
                 { ("m", "dm"), 10 },
 
-            
+
                 { ("kg/m^3", "g/cm^3"), 0.001 },
                 { ("g/cm^3", "kg/m^3"), 1000 },
 
@@ -159,7 +164,7 @@ namespace ShapeCalculator
 
         private void InitializeCurrentUnits()
         {
-   
+
             currentUnits = new Dictionary<string, string>
             {
                 { "xUnitComboBox", "m" },
@@ -188,7 +193,8 @@ namespace ShapeCalculator
                 solidDensityTextBox.Width = textBoxWidth;
                 veinsTextBox.Width = textBoxWidth;
             }
-            else {
+            else
+            {
                 xTextBox.Width = xTextBox.MinWidth;
                 yTextBox.Width = yTextBox.MinWidth;
                 rTextBox.Width = rTextBox.MinWidth;
@@ -228,6 +234,8 @@ namespace ShapeCalculator
             }
         }
 
+
+
         private TextBox GetRelatedTextBox(ComboBox comboBox)
         {
             switch (comboBox.Name)
@@ -248,6 +256,9 @@ namespace ShapeCalculator
                     return null;
             }
         }
+
+
+
         private Label GetRelatedLabel(ComboBox comboBox)
         {
             switch (comboBox.Name)
@@ -268,7 +279,7 @@ namespace ShapeCalculator
 
         private double ConvertUnit(double value, string fromUnit, string toUnit)
         {
-            if (fromUnit == toUnit) return value; 
+            if (fromUnit == toUnit) return value;
 
             if (conversionFactors.TryGetValue((fromUnit, toUnit), out var factor))
             {
@@ -277,10 +288,11 @@ namespace ShapeCalculator
 
             throw new ArgumentException($"Nie znaleziono przelicznika z {fromUnit} do {toUnit}");
         }
-        private void getV() {
+        private void getV()
+        {
             try
             {
-               
+
                 this.V = ConvertUnit(Convert.ToDouble(vTextBox.Text), (vUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m/min");
                 this.Z = this.V;
                 if (this.V <= 0.0)
@@ -368,8 +380,9 @@ namespace ShapeCalculator
             {
                 MessageBox.Show("Zła dana R");
             }
-            catch (Exception ex) { 
-                MessageBox.Show(ex.Message); 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -377,7 +390,7 @@ namespace ShapeCalculator
         {
             try
             {
-               
+
                 this.Rc = ConvertUnit(Convert.ToDouble(liquidDensityTextBox.Text), (liquidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "kg/m^3");
                 if (this.Rc <= 0.0)
                 {
@@ -419,7 +432,8 @@ namespace ShapeCalculator
             try
             {
                 this.s1 = Convert.ToDouble(scaleTextBox1.Text);
-                if (this.s1 <= 0.0) {
+                if (this.s1 <= 0.0)
+                {
                     throw new Exception("Ta wartość skali nie może być mniejsza bądź równa zeru!");
                 }
             }
@@ -450,6 +464,110 @@ namespace ShapeCalculator
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private void btnSavePdf_Click(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+
+            saveFileDialog.Filter = "Pliki PDF (*.pdf)|*.pdf|Wszystkie pliki (*.*)|*.*";
+
+            saveFileDialog.DefaultExt = "pdf";
+
+            saveFileDialog.FileName = "ShapeCalculatorResults.pdf";
+
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+
+                string filePath = saveFileDialog.FileName;
+
+
+                PdfDocument document = new PdfDocument();
+
+
+                PdfPage page = document.AddPage();
+
+
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+
+                XFont font = new XFont("Arial", 12, XFontStyle.Regular);
+
+
+               // XImage image = XImage.FromFile("../Assets/logo.jpg");
+
+              //  gfx.DrawImage(image, 20, 20, 100, 50);
+
+                gfx.DrawString("COS", font, XBrushes.Black,
+                    new XRect(0, 80, page.Width, 20),
+                    XStringFormats.Center);
+
+
+                DrawTable(gfx, font, 120, 200, new string[] { "Dane wejściowe", "Wybrane jednostki" },
+                    new string[,]
+                    {
+                { "X", xTextBox.Text + " " + xUnitComboBox.Text },
+                { "Y", yTextBox.Text + " " + yUnitComboBox.Text },
+                { "R", rTextBox.Text + " " + rUnitComboBox.Text },
+                { "V", vTextBox.Text + " " + vUnitComboBox.Text },
+                { "", "" },
+                { "Qm", QmUnitComboBox.Text },
+                { "Qo", QoUnitComboBox.Text },
+                { "QmPrime", QmPrimeUnitComboBox.Text },
+                { "QoPrime", QoPrimeUnitComboBox.Text }
+                    });
+
+
+                string qmText = $"Qm: {QmOutputLabel.Content}";
+                string qoText = $"Qo: {QoOutputLabel.Content}";
+                string qmPrimeText = $"QmPrime: {QmPrimeOutputLabel.Content}";
+                string qoPrimeText = $"QoPrime: {QoPrimeOutputLabel.Content}";
+
+                gfx.DrawString(qmText, font, XBrushes.Black,
+                    new XRect(0, 380, page.Width, 20),
+                    XStringFormats.TopLeft);
+                gfx.DrawString(qoText, font, XBrushes.Black,
+                    new XRect(0, 400, page.Width, 20),
+                    XStringFormats.TopLeft);
+                gfx.DrawString(qmPrimeText, font, XBrushes.Black,
+                    new XRect(0, 420, page.Width, 20),
+                    XStringFormats.TopLeft);
+                gfx.DrawString(qoPrimeText, font, XBrushes.Black,
+                    new XRect(0, 440, page.Width, 20),
+                    XStringFormats.TopLeft);
+
+
+                document.Save(filePath);
+
+
+                MessageBox.Show($"Plik PDF został zapisany jako: {filePath}");
+            }
+        }
+
+        private void DrawTable(XGraphics gfx, XFont font, double x, double y, string[] headers, string[,] data)
+        {
+            const int cellPadding = 5;
+            double currentY = y;
+
+            for (int i = 0; i < headers.Length; i++)
+            {
+                gfx.DrawString(headers[i], font, XBrushes.Black, x, currentY);
+
+                if (i < data.GetLength(0))
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        double textWidth = gfx.MeasureString(data[i, j], font).Width;
+                        gfx.DrawString(data[i, j], font, XBrushes.Black, x + (j == 0 ? 100 : 250) - textWidth / 2, currentY + cellPadding);
+                    }
+                }
+
+                currentY += font.Height + cellPadding * 2;
             }
         }
     }
