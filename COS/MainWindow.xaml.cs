@@ -10,6 +10,11 @@ using ClosedXML.Excel;
 using System.Runtime.CompilerServices;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Drawing;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace ShapeCalculator
 {
@@ -326,6 +331,14 @@ namespace ShapeCalculator
             }
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnCalculate_Click(sender, e);
+            }
+        }
+
         private void getA()
         {
             try
@@ -487,81 +500,41 @@ namespace ShapeCalculator
         private void btnSavePdf_Click(object sender, RoutedEventArgs e)
         {
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-
-            saveFileDialog.Filter = "Pliki PDF (*.pdf)|*.pdf|Wszystkie pliki (*.*)|*.*";
-
-            saveFileDialog.DefaultExt = "pdf";
-
-            saveFileDialog.FileName = "ShapeCalculatorResults.pdf";
-
-
-            if (saveFileDialog.ShowDialog() == true)
+            try
             {
+                // Prepare data for PDF
+                var inputData = new Dictionary<string, string>
+        {
+            { "Shape", rectangleRadioButton.IsChecked == true ? "Rectangle" : "Circle" },
+            { "X", xTextBox.Text + " " + (xUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() },
+            { "Y", yTextBox.Text + " " + (yUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() },
+            { "R", rTextBox.Text + " " + (rUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() },
+            { "V", vTextBox.Text + " " + (vUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() },
+            { "Liquid Density", liquidDensityTextBox.Text + " " + (liquidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() },
+            { "Solid Density", solidDensityTextBox.Text + " " + (solidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() },
+            { "Veins", veinsTextBox.Text },
+            { "Scale 1", scaleTextBox1.Text },
+            { "Scale 2", scaleTextBox2.Text }
+        };
 
-                string filePath = saveFileDialog.FileName;
+                var outputData = new Dictionary<string, string>
+        {
+            { "Qm", QmOutputLabel.Content.ToString() },
+            { "Qo", QoOutputLabel.Content.ToString() },
+            { "Qm Prime", QmPrimeOutputLabel.Content.ToString() },
+            { "Qo Prime", QoPrimeOutputLabel.Content.ToString() },
+            { "Sq", SqOutputLabel.Content.ToString() }
+        };
 
+                // Generate PDF
+                string filePath = "ShapeCalculatorReport.pdf";
+                PdfDocumentGenerator.GeneratePdf(inputData, outputData, filePath);
 
-                PdfDocument document = new PdfDocument();
-
-
-                PdfPage page = document.AddPage();
-
-
-                XGraphics gfx = XGraphics.FromPdfPage(page);
-
-
-                XFont font = new XFont("Arial", 12, XFontStyle.Regular);
-
-
-                // XImage image = XImage.FromFile("../Assets/logo.jpg");
-
-                //  gfx.DrawImage(image, 20, 20, 100, 50);
-
-                gfx.DrawString("COS", font, XBrushes.Black,
-                    new XRect(0, 80, page.Width, 20),
-                    XStringFormats.Center);
-
-
-                DrawTable(gfx, font, 120, 200, new string[] { "Dane wejściowe", "Wybrane jednostki" },
-                    new string[,]
-                    {
-                { "X", xTextBox.Text + " " + xUnitComboBox.Text },
-                { "Y", yTextBox.Text + " " + yUnitComboBox.Text },
-                { "R", rTextBox.Text + " " + rUnitComboBox.Text },
-                { "V", vTextBox.Text + " " + vUnitComboBox.Text },
-                { "", "" },
-                { "Qm", QmUnitComboBox.Text },
-                { "Qo", QoUnitComboBox.Text },
-                { "QmPrime", QmPrimeUnitComboBox.Text },
-                { "QoPrime", QoPrimeUnitComboBox.Text }
-                    });
-
-
-                string qmText = $"Qm: {QmOutputLabel.Content}";
-                string qoText = $"Qo: {QoOutputLabel.Content}";
-                string qmPrimeText = $"QmPrime: {QmPrimeOutputLabel.Content}";
-                string qoPrimeText = $"QoPrime: {QoPrimeOutputLabel.Content}";
-
-                gfx.DrawString(qmText, font, XBrushes.Black,
-                    new XRect(0, 380, page.Width, 20),
-                    XStringFormats.TopLeft);
-                gfx.DrawString(qoText, font, XBrushes.Black,
-                    new XRect(0, 400, page.Width, 20),
-                    XStringFormats.TopLeft);
-                gfx.DrawString(qmPrimeText, font, XBrushes.Black,
-                    new XRect(0, 420, page.Width, 20),
-                    XStringFormats.TopLeft);
-                gfx.DrawString(qoPrimeText, font, XBrushes.Black,
-                    new XRect(0, 440, page.Width, 20),
-                    XStringFormats.TopLeft);
-
-
-                document.Save(filePath);
-
-
-                MessageBox.Show($"Plik PDF został zapisany jako: {filePath}");
+                MessageBox.Show("PDF został zapisany w: " + filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -790,6 +763,54 @@ namespace ShapeCalculator
             QmPrimeUnitComboBox.SelectedIndex = 0;
             QoUnitComboBox.SelectedIndex = 0;
             QoPrimeUnitComboBox.SelectedIndex = 0;
+        }
+    }
+    public class PdfDocumentGenerator
+    {
+        public static void GeneratePdf(Dictionary<string, string> inputData, Dictionary<string, string> outputData, string filePath)
+        {
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(2, Unit.Centimetre);
+                    page.Size(PageSizes.A4);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(16));
+
+                    page.Header()
+                        .Text("Shape Calculator Report")
+                        .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
+
+                    page.Content()
+                        .Column(column =>
+                        {
+                            column.Spacing(20);
+
+                            column.Item().Text("Input Data").SemiBold().FontSize(24).FontColor(Colors.Black);
+                            foreach (var item in inputData)
+                            {
+                                column.Item().Text($"{item.Key}: {item.Value}");
+                            }
+
+                            column.Item().Text("Output Data").SemiBold().FontSize(24).FontColor(Colors.Black);
+                            foreach (var item in outputData)
+                            {
+                                column.Item().Text($"{item.Key}: {item.Value}");
+                            }
+                        });
+
+                    page.Footer()
+                        .AlignCenter()
+                        .Text(x =>
+                        {
+                            x.Span("Page ");
+                            x.CurrentPageNumber();
+                        });
+                });
+            });
+
+            document.GeneratePdf(filePath);
         }
     }
 }
