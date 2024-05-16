@@ -118,11 +118,11 @@ namespace ShapeCalculator
                 QoOutputLabel.Content = this.Qo.ToString("F2");
 
                 // QmPrimeLabel.Content = "Qm'(żyły: " + this.A.ToString() + ")";
-                this.Qmm = przekrojModelu * this.Vp * this.Rs;//m^2*m/min*kg/m^3 = kg/min    //A żył
+                this.Qmm = Qom * Rc;//m^2*m/min*kg/m^3 = kg/min    //A żył     //TU COŚ NIE TAK 
                 QmPrimeOutputLabel.Content = this.Qmm.ToString("F2");
 
                 //QoPrimeLabel.Content = "Qo'(żyły: " + this.A.ToString() + ")";
-                this.Qom = (this.Qmm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min   //A żył
+                this.Qom = Qo * Math.Pow(skala, 2.5);// (kg/min)/(kg/m^3) * 1000 = l/min   //A żył
                 QoPrimeOutputLabel.Content = this.Qom.ToString("F2");
 
                 this.Sq = Math.Sqrt(skala);
