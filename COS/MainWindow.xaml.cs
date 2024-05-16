@@ -192,7 +192,7 @@ namespace ShapeCalculator
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double textBoxWidth = (e.NewSize.Width - 50 - 90 - 800); // 50 for Label width, 90 for ComboBox width, 800 for proper scaling
+            double textBoxWidth = (e.NewSize.Width - 50 - 90 - 1200); // 50 for Label width, 90 for ComboBox width, 800 for proper scaling
             if (textBoxWidth > 0)
             {
                 xTextBox.Width = textBoxWidth;
