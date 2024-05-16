@@ -233,12 +233,15 @@ namespace ShapeCalculator
                         double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
                         relatedTextBox.Text = newValue.ToString("0.###");
                     }
-                    else if (relatedLabel != null && double.TryParse(relatedLabel.Content.ToString(), out originalValue))
+                    else if (relatedLabel != null)
                     {
-                        double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
-                        relatedLabel.Content = newValue.ToString("0.###");
+                        if (relatedLabel.Content != null)
+                        {
+                            double.TryParse(relatedLabel.Content.ToString(), out originalValue);
+                            double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
+                            relatedLabel.Content = newValue.ToString("0.###");
+                        }
                     }
-
                     currentUnits[comboBox.Name] = newUnit;
                 }
             }

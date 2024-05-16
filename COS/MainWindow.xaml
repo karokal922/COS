@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ShapeCalculator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="COS Calculator" MinHeight="800" MinWidth="1000" WindowState="Maximized" FontSize="24" SizeChanged="Window_SizeChanged" KeyDown="Window_KeyDown" Background="#FFBEBEBE">
+        Title="COS Calculator" MinHeight="800" MinWidth="1100" WindowState="Maximized" FontSize="24" SizeChanged="Window_SizeChanged" KeyDown="Window_KeyDown" Background="#FFBEBEBE">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
@@ -97,14 +97,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click"  Margin="0,0,5,185" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button x:Name="btnSavePdf" Content="Save as PDF" Margin="0,0,5,50" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnSavePdf_Click">
+        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click" Margin="0,0,5,140" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -118,14 +111,14 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="zapiszBtn" Content="Zapisz" Margin="0,0,5,140" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="zapiszBtn_Click">
+        <Button x:Name="zapiszBtn" Content="Zapisz" Margin="0,0,5,95" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="zapiszBtn_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button Content="Wczytaj" Margin="0,0,5,95" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click">
+        <Button Content="Wczytaj"  Margin="0,0,5,50" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -174,7 +167,7 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Grid.Row="2">
                     <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy w urządzeniu przemysłowym" Content="Przepływ objętościowy:" Margin="0,0,5,0" Width="255" VerticalContentAlignment="Center" HorizontalAlignment="Right" Padding="5,5,5,0"/>
                     <Label x:Name="QoOutputLabel"/>
-                    <ComboBox x:Name="QoUnitComboBox" SelectedIndex="0" Width="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <ComboBox x:Name="QoUnitComboBox" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
@@ -183,7 +176,7 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Grid.Row="2" Grid.Column="1">
                     <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy cieczy modelowej" x:Name="QoPrimeLabel" Content="Przepływ objętościowy:" Width="255" Margin="0,0,5,0" VerticalContentAlignment="Center" Padding="5,5,5,0"/>
                     <Label x:Name="QoPrimeOutputLabel"/>
-                    <ComboBox x:Name="QoPrimeUnitComboBox" SelectedIndex="0" Width="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <ComboBox x:Name="QoPrimeUnitComboBox" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
