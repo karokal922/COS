@@ -109,6 +109,9 @@ namespace ShapeCalculator
                 QoPrimeUnitComboBox.SelectedIndex = 0;
                 QoPrimeUnitComboBoxSingleVein.SelectedIndex = 0;
 
+                VeinsNumberLabel.Content = "Ilość żył: " + this.A.ToString();
+                VeinsNumberLabel2.Content = "Ilość żył: " + this.A.ToString();
+
                 this.Qm = this.A * przekroj * this.V * this.Rs;//m^2*m/min*kg/m^3 = kg/min
                 QmOutputLabel.Content = this.Qm.ToString("F2");
                 QmOutputLabelSingleVein.Content = (this.Qm/this.A).ToString("F2");
@@ -569,11 +572,11 @@ namespace ShapeCalculator
                 {
                     // Zapisz dokument PDF
                     document.Save(filename);
-                    MessageBox.Show("PDF saved successfully!");
+                    MessageBox.Show("Generowanie pliku PDF zakończone sukcesem!");
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show("The file could not be saved. Please close the PDF if it is open and try again.", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Nie udało się zapisać pliku. Zamknij plik PDF, jeśli jest otwarty, i spróbuj ponownie.", "Błąd zapisu ", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
