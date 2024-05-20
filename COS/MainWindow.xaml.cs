@@ -506,89 +506,124 @@ namespace ShapeCalculator
 
                 // Utwórz nowy dokument PDF
                 PdfDocument document = new PdfDocument();
-                document.Info.Title = "Shape Calculator Results";
+                document.Info.Title = "COS";
 
                 // Utwórz nową stronę PDF
                 PdfPage page = document.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont titleFont = new XFont("Verdana", 24, XFontStyle.Bold);
+                XFont sectionFont = new XFont("Verdana", 16, XFontStyle.Bold);
                 XFont font = new XFont("Verdana", 12, XFontStyle.Regular);
+                XFont boldFont = new XFont("Verdana", 12, XFontStyle.Bold);
+
+                // Ustawienie tła strony
+                XSolidBrush backgroundBrush = new XSolidBrush(XColor.FromArgb(255, 245, 245, 245));
+                gfx.DrawRectangle(backgroundBrush, 0, 0, page.Width, page.Height);
 
                 // Załaduj obraz z katalogu Assets
-                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Assets", "logo.jpg");
-                XImage xImage = XImage.FromFile(imagePath);
+                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Assets", "logo.png");
+                XImage xImage = null;
+                try
+                {
+                    xImage = XImage.FromFile(imagePath);
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show("Logo image not found. Please ensure the logo image exists in the 'Assets' directory.", "File Not Found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-                // Wycentruj i dodaj logo na górze strony
                 double logoWidth = 100;
-                double logoHeight = 100;
+                double logoHeight = (xImage.PixelHeight / (double)xImage.PixelWidth) * logoWidth;
                 double logoX = (page.Width - logoWidth) / 2;
-                double logoY = 20;
-                gfx.DrawImage(xImage, logoX, logoY, logoWidth, logoHeight);
+                double logoY = 40;
+                gfx.DrawImage(xImage, logoX, logoY, logoWidth, logoHeight); ;
 
                 // Dodaj nagłówek poniżej logo
-                gfx.DrawString("Shape Calculator Results", new XFont("Verdana", 20, XFontStyle.Bold),
+                gfx.DrawString("Parametry Procesowe urządzenia COS", titleFont,
                     XBrushes.Black, new XRect(0, logoY + logoHeight + 10, page.Width, 40), XStringFormats.TopCenter);
 
                 // Dodaj dane wejściowe
                 int yPoint = (int)(logoY + logoHeight + 60);
-                gfx.DrawString("Input Data", new XFont("Verdana", 16, XFontStyle.Bold),
+                gfx.DrawString("Dane Wejściowe", sectionFont,
                     XBrushes.Black, new XRect(20, yPoint, page.Width, 20), XStringFormats.TopLeft);
 
                 yPoint += 30;
-                AddInputDataToPdf(gfx, font, ref yPoint);
+                AddInputDataToPdf(gfx, font, boldFont, ref yPoint);
 
                 // Dodaj dane wyjściowe
-                yPoint += 20;
-                gfx.DrawString("Output Data", new XFont("Verdana", 16, XFontStyle.Bold),
+                yPoint += 40;
+                gfx.DrawString("Wyniki", sectionFont,
                     XBrushes.Black, new XRect(20, yPoint, page.Width, 20), XStringFormats.TopLeft);
 
                 yPoint += 30;
-                AddOutputDataToPdf(gfx, font, ref yPoint);
+                AddOutputDataToPdf(gfx, font, boldFont, ref yPoint);
 
-                // Zapisz dokument PDF
-                document.Save(filename);
-                MessageBox.Show("PDF saved successfully!");
+                try
+                {
+                    // Zapisz dokument PDF
+                    document.Save(filename);
+                    MessageBox.Show("PDF saved successfully!");
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("The file could not be saved. Please close the PDF if it is open and try again.", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
-        private void AddInputDataToPdf(XGraphics gfx, XFont font, ref int yPoint)
+        private void AddInputDataToPdf(XGraphics gfx, XFont font, XFont boldFont, ref int yPoint)
         {
-            XFont boldFont = new XFont("Verdana", 12, XFontStyle.Bold);
+            DrawTableHeader(gfx, boldFont, ref yPoint);
 
-            gfx.DrawString("Parameter", boldFont, XBrushes.Black, new XRect(20, yPoint, 200, 20), XStringFormats.TopLeft);
-            gfx.DrawString("Value", boldFont, XBrushes.Black, new XRect(220, yPoint, 200, 20), XStringFormats.TopLeft);
-            yPoint += 20;
+            if (rectangleRadioButton.IsChecked == true)
+            {
+                DrawTableRow(gfx, font, ref yPoint, "Długość przekroju odlewanego wlewka", xTextBox.Text + " " + (xUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+                DrawTableRow(gfx, font, ref yPoint, "Szerokość przekroju odlewanego wlewka", yTextBox.Text + " " + (yUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            }
+            else if (circleRadioButton.IsChecked == true)
+            {
+                DrawTableRow(gfx, font, ref yPoint, "Promień przekroju odlewanego wlewka", rTextBox.Text + " " + (rUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            }
 
-            DrawTableRow(gfx, font, ref yPoint, "X", xTextBox.Text + " " + (xUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Y", yTextBox.Text + " " + (yUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "R", rTextBox.Text + " " + (rUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Velocity (V)", vTextBox.Text + " " + (vUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Liquid Density (ρc)", liquidDensityTextBox.Text + " " + (liquidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Solid Density (ρs)", solidDensityTextBox.Text + " " + (solidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Veins (A)", veinsTextBox.Text);
-            DrawTableRow(gfx, font, ref yPoint, "Scale Left (s1)", scaleTextBox1.Text);
-            DrawTableRow(gfx, font, ref yPoint, "Scale Right (s2)", scaleTextBox2.Text);
+            DrawTableRow(gfx, font, ref yPoint, "Prędkość odlewania", vTextBox.Text + " " + (vUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Gęstość ciekła", liquidDensityTextBox.Text + " " + (liquidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Gęstość stała", solidDensityTextBox.Text + " " + (solidDensityUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Ilość żył", veinsTextBox.Text);
+            DrawTableRow(gfx, font, ref yPoint, "Skala", scaleTextBox1.Text + ":" + scaleTextBox2.Text);
         }
 
-        private void AddOutputDataToPdf(XGraphics gfx, XFont font, ref int yPoint)
+        private void AddOutputDataToPdf(XGraphics gfx, XFont font, XFont boldFont, ref int yPoint)
         {
-            XFont boldFont = new XFont("Verdana", 12, XFontStyle.Bold);
+            DrawTableHeader(gfx, boldFont, ref yPoint);
 
-            gfx.DrawString("Parameter", boldFont, XBrushes.Black, new XRect(20, yPoint, 200, 20), XStringFormats.TopLeft);
-            gfx.DrawString("Value", boldFont, XBrushes.Black, new XRect(220, yPoint, 200, 20), XStringFormats.TopLeft);
+            DrawTableRow(gfx, font, ref yPoint, "Przepływ masowy", QmOutputLabel.Content.ToString()+ " " + (QmUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Przepływ objętościowy", QoOutputLabel.Content.ToString() + " " + (QoUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Modelowy przepływ objętościowy", QoPrimeOutputLabel.Content.ToString() + " " + (QoPrimeUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+        }
+
+        private void DrawTableHeader(XGraphics gfx, XFont boldFont, ref int yPoint)
+        {
+            XPen pen = new XPen(XColors.Black, 0.5);
+
+            gfx.DrawLine(pen, 20, yPoint - 5, 580, yPoint - 5);
+            gfx.DrawString("Parametr", boldFont, XBrushes.Black, new XRect(20, yPoint, 250, 20), XStringFormats.TopLeft);
+            gfx.DrawString("Wartość", boldFont, XBrushes.Black, new XRect(270, yPoint, 250, 20), XStringFormats.TopLeft);
             yPoint += 20;
-
-            DrawTableRow(gfx, font, ref yPoint, "Qm", QmOutputLabel.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Qo", QoOutputLabel.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Qo'", QoPrimeOutputLabel.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Sq", SqOutputLabel.Content.ToString());
+            gfx.DrawLine(pen, 20, yPoint, 580, yPoint);
         }
 
         private void DrawTableRow(XGraphics gfx, XFont font, ref int yPoint, string parameter, string value)
         {
-            gfx.DrawString(parameter, font, XBrushes.Black, new XRect(20, yPoint, 200, 20), XStringFormats.TopLeft);
-            gfx.DrawString(value, font, XBrushes.Black, new XRect(220, yPoint, 200, 20), XStringFormats.TopLeft);
+            XPen pen = new XPen(XColors.Gray, 0.5);
+
+            gfx.DrawString(parameter, font, XBrushes.Black, new XRect(20, yPoint, 250, 20), XStringFormats.TopLeft);
+            gfx.DrawString(value, font, XBrushes.Black, new XRect(270, yPoint, 250, 20), XStringFormats.TopLeft);
             yPoint += 20;
+            gfx.DrawLine(pen, 20, yPoint, 580, yPoint);
         }
+
+
 
         public void ReadExcelData()
         {
