@@ -1,18 +1,14 @@
 ﻿using Microsoft.Win32;
-
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-
 using ClosedXML.Excel;
 using System.Runtime.CompilerServices;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Drawing;
-
 using System.Collections.Generic;
 using System.Windows.Input;
-
 using System.IO;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
@@ -36,7 +32,6 @@ namespace ShapeCalculator
             solidDensityUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             QmUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             QoUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
-            QmPrimeUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             QoPrimeUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             InitializeConversionFactors();
             InitializeCurrentUnits(); ;
@@ -52,7 +47,7 @@ namespace ShapeCalculator
         private double Rs;//gestosc stala
         private double s1, s2;//skala gorna
 
-        private double Qm, Qo, Sq, Qmm, Qom;
+        private double Qm, Qo, Sq, Qom;
 
         private void ShapeRadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -109,7 +104,6 @@ namespace ShapeCalculator
 
                 QmUnitComboBox.SelectedIndex = 0;
                 QoUnitComboBox.SelectedIndex = 0;
-                QmPrimeUnitComboBox.SelectedIndex = 0;
                 QoPrimeUnitComboBox.SelectedIndex = 0;
 
                 this.Qm = this.A * przekroj * this.V * this.Rs;//m^2*m/min*kg/m^3 = kg/min
@@ -117,10 +111,6 @@ namespace ShapeCalculator
 
                 this.Qo = (this.Qm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
                 QoOutputLabel.Content = this.Qo.ToString("F2");
-
-                // QmPrimeLabel.Content = "Qm'(żyły: " + this.A.ToString() + ")";
-                this.Qmm = Qom * Rc;//m^2*m/min*kg/m^3 = kg/min    //A żył     //TU COŚ NIE TAK 
-                QmPrimeOutputLabel.Content = this.Qmm.ToString("F2");
 
                 //QoPrimeLabel.Content = "Qo'(żyły: " + this.A.ToString() + ")";
                 this.Qom = Qo * Math.Pow(skala, 2.5);// (kg/min)/(kg/m^3) * 1000 = l/min   //A żył
@@ -186,7 +176,6 @@ namespace ShapeCalculator
                 { "solidDensityUnitComboBox", "kg/m^3" },
                 { "QmUnitComboBox", "kg/min" },
                 { "QoUnitComboBox", "l/min" },
-                { "QmPrimeUnitComboBox", "kg/min" },
                 { "QoPrimeUnitComboBox", "l/min" }
             };
         }
@@ -281,8 +270,6 @@ namespace ShapeCalculator
                     return QmOutputLabel;
                 case "QoUnitComboBox":
                     return QoOutputLabel;
-                case "QmPrimeUnitComboBox":
-                    return QmPrimeOutputLabel;
                 case "QoPrimeUnitComboBox":
                     return QoPrimeOutputLabel;
                 default:
@@ -327,7 +314,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana V");
+                MessageBox.Show("Zła dana - prędkość odlewania (V)");
             }
             catch (Exception ex)
             {
@@ -355,7 +342,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana a");
+                MessageBox.Show("Zła dana - ilość żył (a)");
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
@@ -367,13 +354,13 @@ namespace ShapeCalculator
                 this.X = ConvertUnit(Convert.ToDouble(xTextBox.Text), (xUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m");
                 if (this.X <= 0.0)
                 {
-                    throw new Exception("Długość boku X nie może być mniejsza bądź równa zeru!");
+                    throw new Exception("Długość wlewka X nie może być mniejsza bądź równa zeru!");
                 }
 
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana X");
+                MessageBox.Show("Zła dana - długość wlewka (X)");
             }
             catch (Exception ex)
             {
@@ -393,12 +380,12 @@ namespace ShapeCalculator
                 this.Y = ConvertUnit(Convert.ToDouble(yTextBox.Text), (yUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString(), "m");
                 if (this.Y <= 0.0)
                 {
-                    throw new Exception("Długość boku Y nie może być mniejsza bądź równa zeru!");
+                    throw new Exception("Szerokość wlewka (Y) nie może być mniejsza bądź równa zeru!");
                 }
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana Y");
+                MessageBox.Show("Zła dana - szerokość wlewka (Y)");
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
@@ -416,7 +403,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana R");
+                MessageBox.Show("Zła dana - promień wlewka (R)");
             }
             catch (Exception ex)
             {
@@ -437,7 +424,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana ρc");
+                MessageBox.Show("Zła dana - gęstość w stanie ciekłym (ρc)");
             }
             catch (Exception ex)
             {
@@ -457,7 +444,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana ρs");
+                MessageBox.Show("Zła dana - gęstość w stanie stałym (ρs)");
             }
             catch (Exception ex)
             {
@@ -477,7 +464,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana skali (strona lewa)");
+                MessageBox.Show("Zła dana - skali (strona lewa)");
             }
             catch (Exception ex)
             {
@@ -497,7 +484,7 @@ namespace ShapeCalculator
             }
             catch (FormatException)
             {
-                MessageBox.Show("Zła dana skali (strona prawa)");
+                MessageBox.Show("Zła dana - skali (strona prawa)");
             }
             catch (Exception ex)
             {
@@ -592,7 +579,6 @@ namespace ShapeCalculator
 
             DrawTableRow(gfx, font, ref yPoint, "Qm", QmOutputLabel.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Qo", QoOutputLabel.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Qm'", QmPrimeOutputLabel.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Qo'", QoPrimeOutputLabel.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Sq", SqOutputLabel.Content.ToString());
         }
@@ -603,11 +589,6 @@ namespace ShapeCalculator
             gfx.DrawString(value, font, XBrushes.Black, new XRect(220, yPoint, 200, 20), XStringFormats.TopLeft);
             yPoint += 20;
         }
-
-
-
-
-
 
         public void ReadExcelData()
         {
@@ -647,9 +628,8 @@ namespace ShapeCalculator
                         solidDensityTextBox.Text = worksheet.Cell("B8").GetString();
                         QmOutputLabel.Content = worksheet.Cell("B9").GetString();
                         QoOutputLabel.Content = worksheet.Cell("B10").GetString();
-                        QmPrimeOutputLabel.Content = worksheet.Cell("B11").GetString();
-                        QoPrimeOutputLabel.Content = worksheet.Cell("B12").GetString();
-                        SqOutputLabel.Content = worksheet.Cell("B13").GetString();
+                        QoPrimeOutputLabel.Content = worksheet.Cell("B11").GetString();
+                        SqOutputLabel.Content = worksheet.Cell("B12").GetString();
                     }
                     // Jeśli zapisane dane odnoszą się do koła
                     else if (worksheet.Cell("A3").Value.ToString() == "R")
@@ -665,9 +645,8 @@ namespace ShapeCalculator
                         solidDensityTextBox.Text = worksheet.Cell("B6").GetString();
                         QmOutputLabel.Content = worksheet.Cell("B7").GetString();
                         QoOutputLabel.Content = worksheet.Cell("B8").GetString();
-                        QmPrimeOutputLabel.Content = worksheet.Cell("B9").GetString();
-                        QoPrimeOutputLabel.Content = worksheet.Cell("B10").GetString();
-                        SqOutputLabel.Content = worksheet.Cell("B11").GetString();
+                        QoPrimeOutputLabel.Content = worksheet.Cell("B09").GetString();
+                        SqOutputLabel.Content = worksheet.Cell("B10").GetString();
                     }
                 }
             }
@@ -736,16 +715,12 @@ namespace ShapeCalculator
                         worksheet.Cell("B10").Value = Qo.ToString("F2");
                         worksheet.Cell("C10").Value = "l/min";
 
-                        worksheet.Cell("A11").Value = "Qm'";
-                        worksheet.Cell("B11").Value = Qmm.ToString("F2");
-                        worksheet.Cell("C11").Value = "kg/min";
+                        worksheet.Cell("A11").Value = "Qo'";
+                        worksheet.Cell("B11").Value = Qom.ToString("F2");
+                        worksheet.Cell("C11").Value = "l/min";
 
-                        worksheet.Cell("A12").Value = "Qo'";
-                        worksheet.Cell("B12").Value = Qom.ToString("F2");
-                        worksheet.Cell("C12").Value = "l/min";
-
-                        worksheet.Cell("A13").Value = "Sq";
-                        worksheet.Cell("B13").Value = Sq.ToString("F2");
+                        worksheet.Cell("A12").Value = "Sq";
+                        worksheet.Cell("B12").Value = Sq.ToString("F2");
 
                     }
                     if (circleRadioButton.IsChecked == true)
@@ -777,16 +752,12 @@ namespace ShapeCalculator
                         worksheet.Cell("B8").Value = Qo.ToString("F2");
                         worksheet.Cell("C8").Value = "l/min";
 
-                        worksheet.Cell("A9").Value = "Qm'";
-                        worksheet.Cell("B9").Value = Qmm.ToString("F2");
-                        worksheet.Cell("C9").Value = "kg/min";
+                        worksheet.Cell("A09").Value = "Qo'";
+                        worksheet.Cell("B09").Value = Qom.ToString("F2");
+                        worksheet.Cell("C09").Value = "l/min";
 
-                        worksheet.Cell("A10").Value = "Qo'";
-                        worksheet.Cell("B10").Value = Qom.ToString("F2");
-                        worksheet.Cell("C10").Value = "l/min";
-
-                        worksheet.Cell("A11").Value = "Sq";
-                        worksheet.Cell("B11").Value = Sq.ToString("F2");
+                        worksheet.Cell("A10").Value = "Sq";
+                        worksheet.Cell("B10").Value = Sq.ToString("F2");
 
                     }
 
@@ -800,6 +771,7 @@ namespace ShapeCalculator
                 Console.WriteLine("Nie wybrano lokalizacji. Operacja przerwana.");
             }
         }
+
         private void ChangeUnitsToSI()
         {
             vUnitComboBox.SelectedIndex = 0;
@@ -809,7 +781,6 @@ namespace ShapeCalculator
             liquidDensityUnitComboBox.SelectedIndex = 0;
             solidDensityUnitComboBox.SelectedIndex = 0;
             QmUnitComboBox.SelectedIndex = 0;
-            QmPrimeUnitComboBox.SelectedIndex = 0;
             QoUnitComboBox.SelectedIndex = 0;
             QoPrimeUnitComboBox.SelectedIndex = 0;
         }
