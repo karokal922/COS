@@ -34,7 +34,7 @@ namespace ShapeCalculator
             QoUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             QoPrimeUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             InitializeConversionFactors();
-            InitializeCurrentUnits(); ;
+            InitializeCurrentUnits();
         }
         private Dictionary<string, string> currentUnits;
         private Dictionary<(string, string), double> conversionFactors;
@@ -103,24 +103,30 @@ namespace ShapeCalculator
                 }
 
                 QmUnitComboBox.SelectedIndex = 0;
+                QmUnitComboBoxSingleVein.SelectedIndex = 0;
                 QoUnitComboBox.SelectedIndex = 0;
+                QoUnitComboBoxSingleVein.SelectedIndex = 0;
                 QoPrimeUnitComboBox.SelectedIndex = 0;
+                QoPrimeUnitComboBoxSingleVein.SelectedIndex = 0;
 
                 this.Qm = this.A * przekroj * this.V * this.Rs;//m^2*m/min*kg/m^3 = kg/min
                 QmOutputLabel.Content = this.Qm.ToString("F2");
+                QmOutputLabelSingleVein.Content = (this.Qm/this.A).ToString("F2");
 
                 this.Qo = (this.Qm / this.Rc) * 1000.0;// (kg/min)/(kg/m^3) * 1000 = l/min
                 QoOutputLabel.Content = this.Qo.ToString("F2");
+                QoOutputLabelSingleVein.Content = (this.Qo/this.A).ToString("F2");
 
                 //QoPrimeLabel.Content = "Qo'(żyły: " + this.A.ToString() + ")";
                 this.Qom = Qo * Math.Pow(skala, 2.5);// (kg/min)/(kg/m^3) * 1000 = l/min   //A żył
                 QoPrimeOutputLabel.Content = this.Qom.ToString("F2");
+                QoPrimeOutputLabelSingleVein.Content = (this.Qom/this.A).ToString("F2");
 
-                this.Sq = Math.Sqrt(skala);
-                SqOutputLabel.Content = this.Sq.ToString("F2");
+                //this.Sq = Math.Sqrt(skala);
+                //SqOutputLabel.Content = this.Sq.ToString("F2");
 
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }//SingleVein
 
         }
         private void InitializeConversionFactors()
@@ -580,7 +586,7 @@ namespace ShapeCalculator
             DrawTableRow(gfx, font, ref yPoint, "Qm", QmOutputLabel.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Qo", QoOutputLabel.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Qo'", QoPrimeOutputLabel.Content.ToString());
-            DrawTableRow(gfx, font, ref yPoint, "Sq", SqOutputLabel.Content.ToString());
+            //DrawTableRow(gfx, font, ref yPoint, "Sq", SqOutputLabel.Content.ToString());
         }
 
         private void DrawTableRow(XGraphics gfx, XFont font, ref int yPoint, string parameter, string value)
@@ -629,7 +635,7 @@ namespace ShapeCalculator
                         QmOutputLabel.Content = worksheet.Cell("B9").GetString();
                         QoOutputLabel.Content = worksheet.Cell("B10").GetString();
                         QoPrimeOutputLabel.Content = worksheet.Cell("B11").GetString();
-                        SqOutputLabel.Content = worksheet.Cell("B12").GetString();
+                        //SqOutputLabel.Content = worksheet.Cell("B12").GetString();
                     }
                     // Jeśli zapisane dane odnoszą się do koła
                     else if (worksheet.Cell("A3").Value.ToString() == "R")
@@ -646,7 +652,7 @@ namespace ShapeCalculator
                         QmOutputLabel.Content = worksheet.Cell("B7").GetString();
                         QoOutputLabel.Content = worksheet.Cell("B8").GetString();
                         QoPrimeOutputLabel.Content = worksheet.Cell("B09").GetString();
-                        SqOutputLabel.Content = worksheet.Cell("B10").GetString();
+                        //SqOutputLabel.Content = worksheet.Cell("B10").GetString();
                     }
                 }
             }
