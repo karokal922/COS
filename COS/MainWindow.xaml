@@ -2,15 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="COS Calculator" MinHeight="800" MinWidth="1100" WindowState="Maximized" FontSize="20" SizeChanged="Window_SizeChanged" KeyDown="Window_KeyDown" Background="#FFBEBEBE">
-    <Grid Margin="20">
+    <Grid Margin="0,20,0,11">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="328.04"/>
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2" Margin="262,0,0,0" Grid.Row="1">
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Row="1" Height="37" Width="170">
             <StackPanel Orientation="Horizontal">
                 <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala modelu" Content="Skala" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="scaleTextBox1" Width="50" TextAlignment="Center" Text="1" VerticalContentAlignment="Center"/>
@@ -19,7 +19,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Width="Auto" Grid.ColumnSpan="3">
+        <StackPanel Grid.Row="2" Width="Auto" Margin="10,0,0,270" Grid.RowSpan="2">
             <GroupBox Header="Kształt wlewki" Height="100">
                 <StackPanel>
                     <RadioButton Content="Protokątny" x:Name="rectangleRadioButton" Checked="ShapeRadioButton_Checked" VerticalContentAlignment="Center"/>
@@ -97,28 +97,35 @@
             </StackPanel>
         </StackPanel>
 
-        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click" Margin="0,0,5,140" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Button x:Name="btnReset" Content="Reset" Margin="0,0,5,185" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnSavePdf_Copy" Content="Eksp do PDF" Margin="0,0,5,5" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnSavePdf_Click">
+        <Button x:Name="btnCalculate" Content="Oblicz" Click="btnCalculate_Click" Margin="0,0,5,140" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="zapiszBtn" Content="Zapisz" Margin="0,0,5,95" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="zapiszBtn_Click">
+        <Button x:Name="btnSavePdf_Copy" Content="Eksport do PDF" Margin="0,0,5,5" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnSavePdf_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button Content="Wczytaj"  Margin="0,0,5,50" Grid.Row="2" Height="40" Width="150" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click">
+        <Button x:Name="zapiszBtn" Content="Zapisz" Margin="0,0,5,95" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="zapiszBtn_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Content="Wczytaj"  Margin="0,0,5,50" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -126,9 +133,9 @@
             </Button.Resources>
         </Button>
 
-        <StackPanel Grid.Row="3" Height="252" VerticalAlignment="Center" Grid.ColumnSpan="3" >
-            <Label Content="Wyniki" FontWeight="Bold"  HorizontalAlignment="Center" Width="507" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True"/>
-            <Grid Grid.Row="2" Height="176">
+        <StackPanel Grid.Row="3" Height="282" VerticalAlignment="Center" >
+            <Label Content="Wyniki" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SnapsToDevicePixels="True" Background="#FF8F8F8F"/>
+            <Grid Grid.Row="2" Height="250">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -138,37 +145,44 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Label Content="Dane rzeczywiste" HorizontalAlignment="Left" Width="480" Margin="0,1,0,1" HorizontalContentAlignment="Center"/>
-                <Label Grid.Column="1" Content="Dane modelowe" HorizontalAlignment="Left" Width="480" HorizontalContentAlignment="Center" Margin="0,1,0,1"/>
+                <Label Content="Dane rzeczywiste" Grid.Row="0" Grid.Column="0" Margin="0,0,0,35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5,0,5,5" Grid.RowSpan="2"/>
+                <Label Grid.Column="1" Grid.Row="0" Content="Dane modelowe" HorizontalContentAlignment="Center" Margin="0,1,0,1"/>
+
+                <Label x:Name="VeinsNumberLabel" Content="Ilość żył: " Grid.Row="1" Grid.Column="1" Margin="0,1,0,1" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
+                <Label x:Name="VeinsNumberLabel2" Content="Ilość żył:" Grid.Row="1" Grid.Column="0" Margin="0,1,0,1" VerticalContentAlignment="Center" Padding="10,0,5,5"/>
+
+                <Label Content="Ilość żył: 1" Grid.Row="4" Grid.Column="0" Margin="1,1,0,1" VerticalContentAlignment="Center" Padding="10,0,5,5"/>
+                <Label Content="Ilość żył: 1" Grid.Row="4" Grid.Column="1" Margin="0,1,0,1" VerticalContentAlignment="Center" Padding="5,0,5,5" HorizontalContentAlignment="Stretch"/>
 
                 <!-- Qm i Qm' -->
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Grid.Row="1">
-                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ masowy w urządzeniu przemysłowym" Content="Przepływ masowy:" Margin="0,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="5,5,5,0"/>
+                <!-- Many veins (a) -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ masowy w urządzeniu przemysłowym" Content="Przepływ masowy:" Margin="1,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="10,0,5,0"/>
                     <Label x:Name="QmOutputLabel"/>
-                    <ComboBox x:Name="QmUnitComboBox" SelectedIndex="0" Width="120" Margin="10,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <ComboBox x:Name="QmUnitComboBox" SelectedIndex="0" Width="120" Margin="10,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,5,5">
                         <ComboBoxItem Content="kg/min"/>
                         <ComboBoxItem Content="kg/s"/>
                         <ComboBoxItem Content="g/s"/>
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Grid.Column="1" Grid.Row="1">
-                    <Label x:Name="QmPrimeOutputLabel"/>
-                </StackPanel>
 
                 <!-- Qo i Qo' -->
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Grid.Row="2">
-                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy w urządzeniu przemysłowym" Content="Przepływ objętościowy:" Margin="0,0,5,0" Width="255" VerticalContentAlignment="Center" HorizontalAlignment="Right" Padding="5,5,5,0"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0">
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy w urządzeniu przemysłowym" Content="Przepływ objętościowy:" Margin="1,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="10,0,5,0"/>
                     <Label x:Name="QoOutputLabel"/>
-                    <ComboBox x:Name="QoUnitComboBox" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                    <ComboBox x:Name="QoUnitComboBox" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,5,5">
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Grid.Row="2" Grid.Column="1">
-                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy cieczy modelowej" x:Name="QoPrimeLabel" Content="Przepływ objętościowy:" Width="255" Margin="0,0,5,0" VerticalContentAlignment="Center" Padding="5,5,5,0"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="2" Grid.Column="1">
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy cieczy modelowej" Content="Przepływ objętościowy:" Width="255" Margin="0,0,5,0" VerticalContentAlignment="Center" Padding="5,0,5,0"/>
                     <Label x:Name="QoPrimeOutputLabel"/>
                     <ComboBox x:Name="QoPrimeUnitComboBox" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <ComboBoxItem Content="l/min"/>
@@ -176,9 +190,41 @@
                         <ComboBoxItem Content="m^3/min"/>
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0"  Grid.Row="3" Grid.Column="1">
-                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala przepływu" Content="Skala przepływu:" Margin="0,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="5,5,5,0"/>
-                    <Label x:Name="SqOutputLabel"/>
+                <!--
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0"  Grid.Row="3" Grid.Column="1">
+                        <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala przepływu" Content="Skala przepływu:" Margin="0,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="5,0,5,0"/>
+                        <Label x:Name="SqOutputLabel"/>
+                    </StackPanel>
+                -->
+
+
+                <!-- Single vein (a) -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="6" Grid.Column="0">
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ masowy w urządzeniu przemysłowym" Content="Przepływ masowy:" Margin="1,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="10,0,5,0"/>
+                    <Label x:Name="QmOutputLabelSingleVein"/>
+                    <ComboBox x:Name="QmUnitComboBoxSingleVein" SelectedIndex="0" Width="120" Margin="10,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,5,5">
+                        <ComboBoxItem Content="kg/min"/>
+                        <ComboBoxItem Content="kg/s"/>
+                        <ComboBoxItem Content="g/s"/>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="5" Grid.Column="0">
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy w urządzeniu przemysłowym" Content="Przepływ objętościowy:" Margin="1,0,5,0" Width="255" VerticalContentAlignment="Center" Padding="10,0,5,0"/>
+                    <Label x:Name="QoOutputLabelSingleVein"/>
+                    <ComboBox x:Name="QoUnitComboBoxSingleVein" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="6,3,5,5">
+                        <ComboBoxItem Content="l/min"/>
+                        <ComboBoxItem Content="l/s"/>
+                        <ComboBoxItem Content="m^3/min"/>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="5" Grid.Column="1">
+                    <Label ToolTipService.InitialShowDelay="10" ToolTip="Przepływ objętościowy cieczy modelowej" Content="Przepływ objętościowy:" Width="255" Margin="0,0,5,0" VerticalContentAlignment="Center" Padding="5,0,5,0"/>
+                    <Label x:Name="QoPrimeOutputLabelSingleVein"/>
+                    <ComboBox x:Name="QoPrimeUnitComboBoxSingleVein" SelectedIndex="0" MinWidth="120" Margin="10,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="l/min"/>
+                        <ComboBoxItem Content="l/s"/>
+                        <ComboBoxItem Content="m^3/min"/>
+                    </ComboBox>
                 </StackPanel>
             </Grid>
         </StackPanel>
