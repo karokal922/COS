@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.IO;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System.Windows.Media;
 
 namespace ShapeCalculator
 {
@@ -441,6 +442,31 @@ namespace ShapeCalculator
             }
         }
 
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            rTextBox.Text = "";
+            xTextBox.Text = "";
+            yTextBox.Text = "";
+            liquidDensityTextBox.Text = "";
+            solidDensityTextBox.Text = "";
+            scaleTextBox1.Text = "1";
+            scaleTextBox2.Text = "1";
+            vTextBox.Text = "";
+            veinsTextBox.Text = "";
+
+            VeinsNumberLabel.Content = "Ilość żył: ";
+            VeinsNumberLabel2.Content = "Ilość żył: ";
+            QoOutputLabel.Content = "";
+            QmOutputLabel.Content = "";
+
+            QoOutputLabelSingleVein.Content = "";
+            QmOutputLabelSingleVein.Content = "";
+
+            QoPrimeOutputLabel.Content = "";
+            QoPrimeOutputLabelSingleVein.Content = "";
+
+        }
+
         private void getRs()
         {
             try
@@ -640,6 +666,7 @@ namespace ShapeCalculator
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Pliki Excel (*.xlsx)|*.xlsx|Wszystkie pliki (*.*)|*.*";
             openFileDialog.Title = "Wybierz plik Excel";
+            openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -659,7 +686,7 @@ namespace ShapeCalculator
                     scaleTextBox2.Text = wartoscSplit[1];
 
                     // Jeśli zapisane dane odnoszą się do prostokąta
-                    if (worksheet.Cell("A3").Value.ToString() == "X")
+                    if (worksheet.Cell("A3").Value.ToString() == "Długość przekroju odlewanego wlewka")
                     {
                         rectangleRadioButton.IsChecked = true;
                         ShapeRadioButton_Checked(rectangleRadioButton, null);
@@ -670,13 +697,32 @@ namespace ShapeCalculator
                         veinsTextBox.Text = worksheet.Cell("B6").GetString();
                         liquidDensityTextBox.Text = worksheet.Cell("B7").GetString();
                         solidDensityTextBox.Text = worksheet.Cell("B8").GetString();
-                        QmOutputLabel.Content = worksheet.Cell("B9").GetString();
-                        QoOutputLabel.Content = worksheet.Cell("B10").GetString();
-                        QoPrimeOutputLabel.Content = worksheet.Cell("B11").GetString();
-                        //SqOutputLabel.Content = worksheet.Cell("B12").GetString();
+
+                        int A = int.Parse(worksheet.Cell("B6").GetString());
+                        VeinsNumberLabel.Content = "Ilość żył: " + A.ToString();
+                        VeinsNumberLabel2.Content = "Ilość żył: " + A.ToString();
+                        if (A == 1)
+                        {
+                            QmOutputLabel.Content = worksheet.Cell("B10").GetString();
+                            QoOutputLabel.Content = worksheet.Cell("B12").GetString();
+                            QmOutputLabelSingleVein.Content = worksheet.Cell("B10").GetString();
+                            QoOutputLabelSingleVein.Content = worksheet.Cell("B12").GetString();
+                            QoPrimeOutputLabel.Content = worksheet.Cell("B14").GetString(); ;
+                            QoPrimeOutputLabelSingleVein.Content = worksheet.Cell("B14").GetString();
+                        }
+                        else if (A > 1)
+                        {
+                            QmOutputLabel.Content = worksheet.Cell("B11").GetString();
+                            QoOutputLabel.Content = worksheet.Cell("B14").GetString();
+                            QmOutputLabelSingleVein.Content = worksheet.Cell("B10").GetString();
+                            QoOutputLabelSingleVein.Content = worksheet.Cell("B13").GetString();
+                            QoPrimeOutputLabel.Content = worksheet.Cell("B17").GetString(); ;
+                            QoPrimeOutputLabelSingleVein.Content = worksheet.Cell("B16").GetString();
+                        }
+
                     }
                     // Jeśli zapisane dane odnoszą się do koła
-                    else if (worksheet.Cell("A3").Value.ToString() == "R")
+                    else if (worksheet.Cell("A3").Value.ToString() == "Promień odlewanego wlewka")
                     {
                         circleRadioButton.IsChecked = true;
                         ShapeRadioButton_Checked(circleRadioButton, null);
@@ -684,13 +730,33 @@ namespace ShapeCalculator
                         yTextBox.Text = "";
                         rTextBox.Text = worksheet.Cell("B3").GetString();
                         vTextBox.Text = worksheet.Cell("B4").GetString();
-                        veinsTextBox.Text = worksheet.Cell("B4").GetString();
-                        liquidDensityTextBox.Text = worksheet.Cell("B5").GetString();
-                        solidDensityTextBox.Text = worksheet.Cell("B6").GetString();
-                        QmOutputLabel.Content = worksheet.Cell("B7").GetString();
-                        QoOutputLabel.Content = worksheet.Cell("B8").GetString();
-                        QoPrimeOutputLabel.Content = worksheet.Cell("B09").GetString();
-                        //SqOutputLabel.Content = worksheet.Cell("B10").GetString();
+                        veinsTextBox.Text = worksheet.Cell("B5").GetString();
+                        liquidDensityTextBox.Text = worksheet.Cell("B6").GetString();
+                        solidDensityTextBox.Text = worksheet.Cell("B7").GetString();
+                        
+                        int A = int.Parse(worksheet.Cell("B5").GetString());
+                        VeinsNumberLabel.Content = "Ilość żył: " + A.ToString();
+                        VeinsNumberLabel2.Content = "Ilość żył: " + A.ToString();
+                        if (A == 1)
+                        {
+                            QmOutputLabel.Content = worksheet.Cell("B9").GetString();
+                            QoOutputLabel.Content = worksheet.Cell("B11").GetString();
+                            QmOutputLabelSingleVein.Content = worksheet.Cell("B9").GetString();
+                            QoOutputLabelSingleVein.Content = worksheet.Cell("B11").GetString();
+                            QoPrimeOutputLabel.Content = worksheet.Cell("B13").GetString(); ;
+                            QoPrimeOutputLabelSingleVein.Content = worksheet.Cell("B13").GetString();
+                        }
+                        else if (A > 1)
+                        {
+                            QmOutputLabel.Content = worksheet.Cell("B10").GetString();
+                            QoOutputLabel.Content = worksheet.Cell("B13").GetString();
+                            QmOutputLabelSingleVein.Content = worksheet.Cell("B9").GetString();
+                            QoOutputLabelSingleVein.Content = worksheet.Cell("B12").GetString();
+                            QoPrimeOutputLabel.Content = worksheet.Cell("B16").GetString(); ;
+                            QoPrimeOutputLabelSingleVein.Content = worksheet.Cell("B15").GetString();
+                        }
+                       
+
                     }
                 }
             }
@@ -700,12 +766,14 @@ namespace ShapeCalculator
             }
         }
 
+
         public void WriteExcelData()
         {
             btnCalculate_Click(this, null);
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Pliki Excel (*.xlsx)|*.xlsx";
             saveFileDialog.Title = "Wybierz lokalizację do zapisu pliku Excel";
+            saveFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -719,89 +787,147 @@ namespace ShapeCalculator
 
                     worksheet.Clear();
 
+                    worksheet.Column("A").Width = 50;
+
                     worksheet.Cell("A1").Value = "Nazwa";
                     worksheet.Cell("B1").Value = "Wartość";
                     worksheet.Cell("C1").Value = "Jednostka";
 
-                    worksheet.Cell("A2").Value = "S";
+                    worksheet.Cell("A2").Value = "Skala";
                     worksheet.Cell("B2").Value = "'" + s1.ToString() + ":" + s2.ToString();
 
                     if (rectangleRadioButton.IsChecked == true)
                     {
-                        worksheet.Cell("A3").Value = "X";
+                        worksheet.Cell("A3").Value = "Długość przekroju odlewanego wlewka";
                         worksheet.Cell("B3").Value = X;
                         worksheet.Cell("C3").Value = "m";
 
-                        worksheet.Cell("A4").Value = "Y";
+                        worksheet.Cell("A4").Value = "Szerokość przekroju odlewanego wlewka";
                         worksheet.Cell("B4").Value = Y;
                         worksheet.Cell("C4").Value = "m";
 
-                        worksheet.Cell("A5").Value = "V";
+                        worksheet.Cell("A5").Value = "Prędkość odlewania";
                         worksheet.Cell("B5").Value = V;
                         worksheet.Cell("C5").Value = "m/min";
 
-                        worksheet.Cell("A6").Value = "a";
+                        worksheet.Cell("A6").Value = "Ilość żył";
                         worksheet.Cell("B6").Value = A;
 
-                        worksheet.Cell("A7").Value = "ρc";
+                        worksheet.Cell("A7").Value = "Gęstość stali w stanie ciekłym";
                         worksheet.Cell("B7").Value = Rc;
                         worksheet.Cell("C7").Value = "kg/m^3";
 
-                        worksheet.Cell("A8").Value = "ρs";
+                        worksheet.Cell("A8").Value = "Gęstość stali w stanie stałym";
                         worksheet.Cell("B8").Value = Rs;
                         worksheet.Cell("C8").Value = "kg/m^3";
 
-                        worksheet.Cell("A9").Value = "Qm";
-                        worksheet.Cell("B9").Value = Qm.ToString("F2");
-                        worksheet.Cell("C9").Value = "kg/min";
+                        worksheet.Cell("A9").Value = "Przepływ masowy w urządzeniu przemysłowym:";
+                        worksheet.Cell("A10").Value = "Jedna żyła";
+                        worksheet.Cell("B10").Value = (Qm/A).ToString("F2");
+                        worksheet.Cell("C10").Value = "kg/min";
+                        if (A == 1)
+                        {
+                            worksheet.Cell("A11").Value = "Przepływ objętościowy w urządzeniu przemysłowym:";
+                            worksheet.Cell("A12").Value = "Jedna żyła";
+                            worksheet.Cell("B12").Value = Qo.ToString("F2");
+                            worksheet.Cell("C12").Value = "l/min";
 
-                        worksheet.Cell("A10").Value = "Qo";
-                        worksheet.Cell("B10").Value = Qo.ToString("F2");
-                        worksheet.Cell("C10").Value = "l/min";
+                            worksheet.Cell("A13").Value = "Przepływ objętościowy cieczy modelowej:";
+                            worksheet.Cell("A14").Value = "Jedna żyła";
+                            worksheet.Cell("B14").Value = Qom.ToString("F2");
+                            worksheet.Cell("C14").Value = "l/min";
 
-                        worksheet.Cell("A11").Value = "Qo'";
-                        worksheet.Cell("B11").Value = Qom.ToString("F2");
-                        worksheet.Cell("C11").Value = "l/min";
 
-                        worksheet.Cell("A12").Value = "Sq";
-                        worksheet.Cell("B12").Value = Sq.ToString("F2");
+                        }
+                        if(A>1)
+                        {
+                            worksheet.Cell("A11").Value = "Ilość żył: "+A.ToString();
+                            worksheet.Cell("B11").Value = Qm.ToString("F2");
+                            worksheet.Cell("C11").Value = "kg/min";
+
+                            worksheet.Cell("A12").Value = "Przepływ objętościowy w urządzeniu przemysłowym:";
+                            worksheet.Cell("A13").Value = "Jedna żyła";
+                            worksheet.Cell("B13").Value = (Qo/A).ToString("F2");
+                            worksheet.Cell("C13").Value = "l/min";
+
+                            worksheet.Cell("A14").Value = "Ilość żył: " + A.ToString();
+                            worksheet.Cell("B14").Value = Qo.ToString("F2");
+                            worksheet.Cell("C14").Value = "l/min";
+
+                            worksheet.Cell("A15").Value = "Przepływ objętościowy cieczy modelowej:";
+                            worksheet.Cell("A16").Value = "Jedna żyła";
+                            worksheet.Cell("B16").Value = (Qom/4).ToString("F2");
+                            worksheet.Cell("C16").Value = "l/min";
+
+                            worksheet.Cell("A17").Value = "Ilość żył: " + A.ToString();
+                            worksheet.Cell("B17").Value = Qom.ToString("F2");
+                            worksheet.Cell("C17").Value = "l/min";
+                        }
 
                     }
                     if (circleRadioButton.IsChecked == true)
                     {
-                        worksheet.Cell("A3").Value = "R";
+                        worksheet.Cell("A3").Value = "Promień odlewanego wlewka";
                         worksheet.Cell("B3").Value = R;
                         worksheet.Cell("C3").Value = "m";
 
-                        worksheet.Cell("A4").Value = "V";
+                        worksheet.Cell("A4").Value = "Prędkość odlewania";
                         worksheet.Cell("B4").Value = V;
                         worksheet.Cell("C4").Value = "m/min";
 
-                        worksheet.Cell("A4").Value = "a";
-                        worksheet.Cell("B4").Value = A;
+                        worksheet.Cell("A5").Value = "Ilość żył";
+                        worksheet.Cell("B5").Value = A;
 
-                        worksheet.Cell("A5").Value = "ρc";
-                        worksheet.Cell("B5").Value = Rc;
-                        worksheet.Cell("C5").Value = "kg/m^3";
-
-                        worksheet.Cell("A6").Value = "ρs";
-                        worksheet.Cell("B6").Value = Rs;
+                        worksheet.Cell("A6").Value = "Gęstość stali w stanie ciekłym";
+                        worksheet.Cell("B6").Value = Rc;
                         worksheet.Cell("C6").Value = "kg/m^3";
 
-                        worksheet.Cell("A7").Value = "Qm";
-                        worksheet.Cell("B7").Value = Qm.ToString("F2");
-                        worksheet.Cell("C7").Value = "kg/min";
+                        worksheet.Cell("A7").Value = "Gęstość stali w stanie stałym";
+                        worksheet.Cell("B7").Value = Rs;
+                        worksheet.Cell("C7").Value = "kg/m^3";
 
-                        worksheet.Cell("A8").Value = "Qo";
-                        worksheet.Cell("B8").Value = Qo.ToString("F2");
-                        worksheet.Cell("C8").Value = "l/min";
+                        worksheet.Cell("A8").Value = "Przepływ masowy w urządzeniu przemysłowym:";
+                        worksheet.Cell("A9").Value = "Jedna żyła";
+                        worksheet.Cell("B9").Value = (Qm / A).ToString("F2");
+                        worksheet.Cell("C9").Value = "kg/min";
+                        if (A == 1)
+                        {
+                            worksheet.Cell("A10").Value = "Przepływ objętościowy w urządzeniu przemysłowym:";
+                            worksheet.Cell("A11").Value = "Jedna żyła";
+                            worksheet.Cell("B11").Value = Qo.ToString("F2");
+                            worksheet.Cell("C11").Value = "l/min";
 
-                        worksheet.Cell("A09").Value = "Qo'";
-                        worksheet.Cell("B09").Value = Qom.ToString("F2");
-                        worksheet.Cell("C09").Value = "l/min";
+                            worksheet.Cell("A12").Value = "Przepływ objętościowy cieczy modelowej:";
+                            worksheet.Cell("A13").Value = "Jedna żyła";
+                            worksheet.Cell("B13").Value = Qom.ToString("F2");
+                            worksheet.Cell("C13").Value = "l/min";
 
-                        worksheet.Cell("A10").Value = "Sq";
-                        worksheet.Cell("B10").Value = Sq.ToString("F2");
+
+                        }
+                        if (A > 1)
+                        {
+                            worksheet.Cell("A10").Value = "Ilość żył: " + A.ToString();
+                            worksheet.Cell("B10").Value = Qm.ToString("F2");
+                            worksheet.Cell("C10").Value = "kg/min";
+
+                            worksheet.Cell("A11").Value = "Przepływ objętościowy w urządzeniu przemysłowym:";
+                            worksheet.Cell("A12").Value = "Jedna żyła";
+                            worksheet.Cell("B12").Value = (Qo / A).ToString("F2");
+                            worksheet.Cell("C12").Value = "l/min";
+
+                            worksheet.Cell("A13").Value = "Ilość żył: " + A.ToString();
+                            worksheet.Cell("B13").Value = Qo.ToString("F2");
+                            worksheet.Cell("C13").Value = "l/min";
+
+                            worksheet.Cell("A14").Value = "Przepływ objętościowy cieczy modelowej:";
+                            worksheet.Cell("A15").Value = "Jedna żyła";
+                            worksheet.Cell("B15").Value = (Qom / 4).ToString("F2");
+                            worksheet.Cell("C15").Value = "l/min";
+
+                            worksheet.Cell("A16").Value = "Ilość żył: " + A.ToString();
+                            worksheet.Cell("B16").Value = Qom.ToString("F2");
+                            worksheet.Cell("C16").Value = "l/min";
+                        }
 
                     }
 

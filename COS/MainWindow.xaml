@@ -97,7 +97,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Button x:Name="btnReset" Content="Reset" Margin="0,0,5,185" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Button x:Name="btnReset" Content="Reset" Margin="0,0,5,185" Grid.Row="2" Height="40" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnReset_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
