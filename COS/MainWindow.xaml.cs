@@ -25,6 +25,8 @@ namespace ShapeCalculator
             {
                 btnCalculate.IsEnabled = false;
             }
+            zapiszBtn.IsEnabled = false;
+            btnSavePdf_Copy.IsEnabled = false;   
             xUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             yUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             rUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
@@ -62,7 +64,7 @@ namespace ShapeCalculator
                 rectangleStackPanel.Visibility = Visibility.Collapsed;
                 circleStackPanel.Visibility = Visibility.Visible;
             }
-            btnCalculate.IsEnabled = true;
+            checkInputs();
         }
 
         private void btnCalculate_Click(object sender, RoutedEventArgs e)
@@ -465,6 +467,51 @@ namespace ShapeCalculator
             QoPrimeOutputLabel.Content = "";
             QoPrimeOutputLabelSingleVein.Content = "";
 
+        }
+
+        private void vTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void veinsTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void liquidDensityTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void solidDensityTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void xTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void yTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void rTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void scaleTextBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
+        }
+
+        private void scaleTextBox2_KeyUp(object sender, KeyEventArgs e)
+        {
+            checkInputs();
         }
 
         private void getRs()
@@ -953,6 +1000,36 @@ namespace ShapeCalculator
             QmUnitComboBox.SelectedIndex = 0;
             QoUnitComboBox.SelectedIndex = 0;
             QoPrimeUnitComboBox.SelectedIndex = 0;
+        }
+
+        private void checkInputs()
+        {
+            if (rectangleRadioButton.IsChecked == true)
+            {
+                if (xTextBox.Text.Equals("")||yTextBox.Text.Equals("")||vTextBox.Text.Equals("") ||veinsTextBox.Text.Equals("") ||solidDensityTextBox.Text.Equals("") ||liquidDensityTextBox.Text.Equals("") || scaleTextBox1.Text.Equals("")|| scaleTextBox2.Text.Equals(""))
+                {
+                    btnCalculate.IsEnabled = false;
+                }
+                else
+                {
+                    btnCalculate.IsEnabled = true;
+                    zapiszBtn.IsEnabled = true;
+                    btnSavePdf_Copy.IsEnabled = true;
+                }
+            }
+            else if (circleRadioButton.IsChecked == true)
+            {
+                if (rTextBox.Text.Equals("") || vTextBox.Text.Equals("") || veinsTextBox.Text.Equals("") || solidDensityTextBox.Text.Equals("") || liquidDensityTextBox.Text.Equals("") || scaleTextBox1.Text.Equals("") || scaleTextBox2.Text.Equals(""))
+                {
+                    btnCalculate.IsEnabled = false;
+                }
+                else
+                {
+                    btnCalculate.IsEnabled = true;
+                    zapiszBtn.IsEnabled = true;
+                    btnSavePdf_Copy.IsEnabled = true;
+                }
+            }
         }
     }
    

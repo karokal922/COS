@@ -13,9 +13,9 @@
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Grid.Row="1" Height="37" Width="170">
             <StackPanel Orientation="Horizontal">
                 <Label ToolTipService.InitialShowDelay="10" ToolTip="Skala modelu" Content="Skala" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox x:Name="scaleTextBox1" Width="50" TextAlignment="Center" Text="1" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="scaleTextBox1" Width="50" TextAlignment="Center" Text="1" VerticalContentAlignment="Center" KeyUp="scaleTextBox1_KeyUp"/>
                 <Label Content=":" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox x:Name="scaleTextBox2" Width="50" HorizontalAlignment="Right" TextAlignment="Center" Text="1" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="scaleTextBox2" Width="50" HorizontalAlignment="Right" TextAlignment="Center" Text="1" VerticalContentAlignment="Center" KeyUp="scaleTextBox2_KeyUp"/>
             </StackPanel>
         </StackPanel>
 
@@ -30,7 +30,7 @@
             <StackPanel x:Name="rectangleStackPanel" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Długość przekroju odlewanego wlewka:" Width="445" Margin="0,10,5,0" ToolTipService.InitialShowDelay="10" ToolTip="Długość przekroju odlewanego wlewka"/>
-                    <TextBox x:Name="xTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center"/>
+                    <TextBox x:Name="xTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center" KeyUp="xTextBox_KeyUp"/>
                     <ComboBox x:Name="xUnitComboBox" SelectedIndex="0" Width="120" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                         <ComboBoxItem Content="m"/>
                         <ComboBoxItem Content="mm"/>
@@ -41,7 +41,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Szerokość przekroju odlewanego wlewka:" Width="445" Margin="0,10,5,0" ToolTipService.InitialShowDelay="10" ToolTip="Szerokość przekroju odlewanego wlewka"/>
-                    <TextBox x:Name="yTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center"/>
+                    <TextBox x:Name="yTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center" KeyUp="yTextBox_KeyUp"/>
                     <ComboBox x:Name="yUnitComboBox" SelectedIndex="0" Width="120" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                         <ComboBoxItem Content="m"/>
                         <ComboBoxItem Content="mm"/>
@@ -54,7 +54,7 @@
             <StackPanel x:Name="circleStackPanel" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Promień przekroju odlewanego wlewka:" Width="445" Margin="0,10,5,0" ToolTipService.InitialShowDelay="10" ToolTip="Promień przekroju odlewanego wlewka"/>
-                    <TextBox x:Name="rTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center"/>
+                    <TextBox x:Name="rTextBox" VerticalContentAlignment="Center" Margin="0,10,5,0" MinWidth="220" TextAlignment="Center" KeyUp="rTextBox_KeyUp"/>
                     <ComboBox x:Name="rUnitComboBox" SelectedIndex="0" Width="120" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                         <ComboBoxItem Content="m"/>
                         <ComboBoxItem Content="mm"/>
@@ -66,7 +66,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <Label Content="Prędkość odlewania:" Width="445" Margin="0,10,5,0" ToolTipService.InitialShowDelay="10" ToolTip="Prędkość odlewania"/>
-                <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center"/>
+                <TextBox x:Name="vTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center" KeyUp="vTextBox_KeyUp"/>
                 <ComboBox x:Name="vUnitComboBox" SelectedIndex="0" Width="120" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                     <ComboBoxItem Content="m/min"/>
                     <ComboBoxItem Content="m/s"/>
@@ -75,12 +75,12 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Ilość żył:" Width="445" Margin="0,10,5,0"/>
-                <TextBox x:Name="veinsTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,0,0" TextAlignment="Center"/>
+                <TextBox x:Name="veinsTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,0,0" TextAlignment="Center" KeyUp="veinsTextBox_KeyUp"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Gęstość ciekła:" Width="445" Margin="0,10,5,0" ToolTipService.InitialShowDelay="10" ToolTip="Gęstość stali w stanie stałym"/>
-                <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center"/>
+                <TextBox x:Name="liquidDensityTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center" KeyUp="liquidDensityTextBox_KeyUp"/>
                 <ComboBox x:Name="liquidDensityUnitComboBox" Width="120" SelectedIndex="0" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                     <ComboBoxItem Content="kg/m^3"/>
                     <ComboBoxItem Content="g/cm^3"/>
@@ -89,7 +89,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Gęstość stała:" Width="445" Margin="0,10,5,0" ToolTipService.InitialShowDelay="10" ToolTip="Gęstość stali w stanie stałym"/>
-                <TextBox x:Name="solidDensityTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center"/>
+                <TextBox x:Name="solidDensityTextBox" VerticalContentAlignment="Center" MinWidth="220" Margin="0,10,5,0" TextAlignment="Center" KeyUp="solidDensityTextBox_KeyUp"/>
                 <ComboBox x:Name="solidDensityUnitComboBox" SelectedIndex="0" Width="120" Margin="0,10,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left">
                     <ComboBoxItem Content="kg/m^3"/>
                     <ComboBoxItem Content="g/cm^3"/>
