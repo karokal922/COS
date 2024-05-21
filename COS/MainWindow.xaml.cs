@@ -635,11 +635,17 @@ namespace ShapeCalculator
 
                 // Dodaj dane wyjściowe
                 yPoint += 40;
-                gfx.DrawString("Wyniki", sectionFont,
+                gfx.DrawString("Wyniki dla n ilosci zyl", sectionFont,
                     XBrushes.Black, new XRect(20, yPoint, page.Width, 20), XStringFormats.TopLeft);
 
                 yPoint += 30;
                 AddOutputDataToPdf(gfx, font, boldFont, ref yPoint);
+                yPoint += 20;
+                gfx.DrawString("Wyniki dla 1 zyly", sectionFont,
+                    XBrushes.Black, new XRect(20, yPoint, page.Width, 20), XStringFormats.TopLeft);
+
+                yPoint += 30;
+                AddOutputDataToPdf1vein(gfx, font, boldFont, ref yPoint);
 
                 try
                 {
@@ -682,6 +688,15 @@ namespace ShapeCalculator
             DrawTableRow(gfx, font, ref yPoint, "Przepływ masowy", QmOutputLabel.Content.ToString()+ " " + (QmUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Przepływ objętościowy", QoOutputLabel.Content.ToString() + " " + (QoUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
             DrawTableRow(gfx, font, ref yPoint, "Modelowy przepływ objętościowy", QoPrimeOutputLabel.Content.ToString() + " " + (QoPrimeUnitComboBox.SelectedItem as ComboBoxItem)?.Content.ToString());
+        }
+
+        private void AddOutputDataToPdf1vein(XGraphics gfx, XFont font, XFont boldFont, ref int yPoint)
+        {
+            DrawTableHeader(gfx, boldFont, ref yPoint);
+
+            DrawTableRow(gfx, font, ref yPoint, "Przepływ masowy", QmOutputLabelSingleVein.Content.ToString() + " " + (QmUnitComboBoxSingleVein.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Przepływ objętościowy", QoOutputLabelSingleVein.Content.ToString() + " " + (QoUnitComboBoxSingleVein.SelectedItem as ComboBoxItem)?.Content.ToString());
+            DrawTableRow(gfx, font, ref yPoint, "Modelowy przepływ objętościowy", QoPrimeOutputLabelSingleVein.Content.ToString() + " " + (QoPrimeUnitComboBoxSingleVein.SelectedItem as ComboBoxItem)?.Content.ToString());
         }
 
         private void DrawTableHeader(XGraphics gfx, XFont boldFont, ref int yPoint)
