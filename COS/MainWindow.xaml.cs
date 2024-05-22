@@ -927,7 +927,7 @@ namespace ShapeCalculator
 
                             worksheet.Cell("A15").Value = "Przepływ objętościowy cieczy modelowej:";
                             worksheet.Cell("A16").Value = "Jedna żyła";
-                            worksheet.Cell("B16").Value = (Qom/4).ToString("F2");
+                            worksheet.Cell("B16").Value = (Qom/A).ToString("F2");
                             worksheet.Cell("C16").Value = "l/min";
 
                             worksheet.Cell("A17").Value = "Ilość żył: " + A.ToString();
@@ -992,7 +992,7 @@ namespace ShapeCalculator
 
                             worksheet.Cell("A14").Value = "Przepływ objętościowy cieczy modelowej:";
                             worksheet.Cell("A15").Value = "Jedna żyła";
-                            worksheet.Cell("B15").Value = (Qom / 4).ToString("F2");
+                            worksheet.Cell("B15").Value = (Qom / A).ToString("F2");
                             worksheet.Cell("C15").Value = "l/min";
 
                             worksheet.Cell("A16").Value = "Ilość żył: " + A.ToString();
