@@ -453,6 +453,10 @@ namespace ShapeCalculator
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
+            btnCalculate.IsEnabled = false;
+            zapiszBtn.IsEnabled = false;
+            btnSavePdf_Copy.IsEnabled = false;
+
             rTextBox.Text = "";
             xTextBox.Text = "";
             yTextBox.Text = "";
@@ -473,10 +477,6 @@ namespace ShapeCalculator
 
             QoPrimeOutputLabel.Content = "";
             QoPrimeOutputLabelSingleVein.Content = "";
-
-            btnCalculate.IsEnabled = false;
-            zapiszBtn.IsEnabled = false;
-            btnSavePdf_Copy.IsEnabled = false;   
         }
 
         private void vTextBox_KeyUp(object sender, KeyEventArgs e)
