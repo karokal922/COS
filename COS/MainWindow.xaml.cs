@@ -7,7 +7,6 @@ using ClosedXML.Excel;
 using System.Runtime.CompilerServices;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Drawing;
-using System.Collections.Generic;
 using System.Windows.Input;
 using System.IO;
 using PdfSharp.Drawing;
@@ -36,6 +35,9 @@ namespace ShapeCalculator
             QmUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             QoUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
             QoPrimeUnitComboBox.SelectionChanged += UnitComboBox_SelectionChanged;
+            QmUnitComboBoxSingleVein.SelectionChanged += UnitComboBox_SelectionChanged;
+            QoPrimeUnitComboBoxSingleVein.SelectionChanged += UnitComboBox_SelectionChanged;
+            QoUnitComboBoxSingleVein.SelectionChanged += UnitComboBox_SelectionChanged;
             InitializeConversionFactors();
             InitializeCurrentUnits();
         }
@@ -111,6 +113,10 @@ namespace ShapeCalculator
                 QoUnitComboBoxSingleVein.SelectedIndex = 0;
                 QoPrimeUnitComboBox.SelectedIndex = 0;
                 QoPrimeUnitComboBoxSingleVein.SelectedIndex = 0;
+
+                QmUnitComboBoxSingleVein.SelectedIndex = 0;
+                QoPrimeUnitComboBoxSingleVein.SelectedIndex = 0;
+                QoUnitComboBoxSingleVein.SelectedIndex = 0;
 
                 VeinsNumberLabel.Content = "Ilość żył: " + this.A.ToString();
                 VeinsNumberLabel2.Content = "Ilość żył: " + this.A.ToString();
@@ -195,8 +201,12 @@ namespace ShapeCalculator
                 { "solidDensityUnitComboBox", "kg/m^3" },
                 { "QmUnitComboBox", "kg/min" },
                 { "QoUnitComboBox", "l/min" },
-                { "QoPrimeUnitComboBox", "l/min" }
-            };
+                { "QoPrimeUnitComboBox", "l/min" },
+                { "QmUnitComboBoxSingleVein", "kg/min" },
+                { "QoPrimeUnitComboBoxSingleVein","l/min" },
+                { "QoUnitComboBoxSingleVein","l/min" }
+
+        };
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -240,7 +250,7 @@ namespace ShapeCalculator
                     if (relatedTextBox != null && double.TryParse(relatedTextBox.Text, out originalValue))
                     {
                         double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
-                        relatedTextBox.Text = newValue.ToString("0.###");
+                        relatedTextBox.Text = newValue.ToString("0.######");
                     }
                     else if (relatedLabel != null)
                     {
@@ -248,7 +258,7 @@ namespace ShapeCalculator
                         {
                             double.TryParse(relatedLabel.Content.ToString(), out originalValue);
                             double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
-                            relatedLabel.Content = newValue.ToString("0.###");
+                            relatedLabel.Content = newValue.ToString("0.######");
                         }
                     }
                     currentUnits[comboBox.Name] = newUnit;
@@ -291,13 +301,19 @@ namespace ShapeCalculator
                     return QoOutputLabel;
                 case "QoPrimeUnitComboBox":
                     return QoPrimeOutputLabel;
+                case "QmUnitComboBoxSingleVein":
+                    return QmOutputLabelSingleVein;
+                case "QoPrimeUnitComboBoxSingleVein":
+                    return QoPrimeOutputLabelSingleVein;
+                case "QoUnitComboBoxSingleVein":
+                    return QoOutputLabelSingleVein;
                 default:
                     return null;
             }
         }
 
 
-        private double ConvertUnit(double value, string fromUnit, string toUnit)
+private double ConvertUnit(double value, string fromUnit, string toUnit)
         {
             if (fromUnit == toUnit) return value;
 

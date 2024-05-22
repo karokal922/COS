@@ -179,6 +179,7 @@
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
+                        <ComboBoxItem Content="m^3/s"/>
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="2" Grid.Column="1">
@@ -188,6 +189,7 @@
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
+                        <ComboBoxItem Content="m^3/s"/>
                     </ComboBox>
                 </StackPanel>
                 <!--
@@ -215,6 +217,7 @@
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
+                        <ComboBoxItem Content="m^3/s"/>
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="5" Grid.Column="1">
@@ -224,6 +227,7 @@
                         <ComboBoxItem Content="l/min"/>
                         <ComboBoxItem Content="l/s"/>
                         <ComboBoxItem Content="m^3/min"/>
+                        <ComboBoxItem Content="m^3/s"/>
                     </ComboBox>
                 </StackPanel>
             </Grid>
