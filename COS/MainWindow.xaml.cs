@@ -421,6 +421,7 @@ private double ConvertUnit(double value, string fromUnit, string toUnit)
 
         private void btnSavePdf_Click(object sender, RoutedEventArgs e)
         {
+            btnCalculate_Click(this,null);
             SavePdf();
         }
 
