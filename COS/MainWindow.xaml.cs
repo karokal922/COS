@@ -317,6 +317,7 @@ namespace ShapeCalculator
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ReadExcelData();
+            checkInputs();
         }
 
         private void getV()
@@ -827,8 +828,6 @@ namespace ShapeCalculator
                             QoPrimeOutputLabel.Content = worksheet.Cell("B16").GetString(); ;
                             QoPrimeOutputLabelSingleVein.Content = worksheet.Cell("B15").GetString();
                         }
-                       
-
                     }
                 }
             }
