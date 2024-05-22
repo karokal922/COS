@@ -250,7 +250,14 @@ namespace ShapeCalculator
                     if (relatedTextBox != null && double.TryParse(relatedTextBox.Text, out originalValue))
                     {
                         double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
-                        relatedTextBox.Text = newValue.ToString("0.######");
+                        if (newValue < 0.01)
+                        {
+                            relatedTextBox.Text = newValue.ToString("0.######");
+                        }
+                        else
+                        {
+                            relatedTextBox.Text = newValue.ToString("0.###");
+                        }
                     }
                     else if (relatedLabel != null)
                     {
@@ -258,7 +265,15 @@ namespace ShapeCalculator
                         {
                             double.TryParse(relatedLabel.Content.ToString(), out originalValue);
                             double newValue = ConvertUnit(originalValue, currentUnit, newUnit);
-                            relatedLabel.Content = newValue.ToString("0.######");
+                            if (newValue < 0.01)
+                            {
+                                relatedLabel.Content = newValue.ToString("0.######");
+                            }
+                            else
+                            {
+                                relatedLabel.Content = newValue.ToString("0.###");
+                            }
+                            
                         }
                     }
                     currentUnits[comboBox.Name] = newUnit;
