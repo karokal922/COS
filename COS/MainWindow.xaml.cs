@@ -830,6 +830,8 @@ namespace ShapeCalculator
                         }
                     }
                 }
+                MessageBox.Show($"Dane zostały wczytane z pliku Excel o lokalizacji: {filePath}");
+
             }
             else
             {
@@ -1004,7 +1006,7 @@ namespace ShapeCalculator
 
                     workbook.SaveAs(filePath);
                 }
-
+                MessageBox.Show($"Dane zostały zapisane do pliku Excel w lokalizacji: {filePath}");
                 Console.WriteLine($"Dane zostały zapisane do pliku Excel w lokalizacji: {filePath}");
             }
             else
